@@ -1,0 +1,21 @@
+{
+  "name": "topia-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec babel-node index.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "nodemon": "^1.18.11"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.4.3",
+    "hapi": "^18.1.0"
+  }
+}
