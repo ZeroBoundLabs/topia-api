@@ -16,6 +16,10 @@
   },
   "dependencies": {
     "@babel/preset-env": "^7.4.3",
-    "hapi": "^18.1.0"
+    "hapi": "^18.1.0",
+    "pg": "^7.10.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^5.7.5",
+    "sequelize-cli": "^5.4.0"
   }
 }
