@@ -1,8 +1,10 @@
 # Setup
 * Install NodeJS v10.15.0
+* Navigate to project directory
 * Install dependencies `npm i`
 * Create database config `cp ./config/config.json.example ./config/config.json`
 * Provide PostgreSQL credentials `./config/config.json`
+* Start the app `npm start`
 
 # Sequelize CLI commands (migrations)
 `npx sequelize [command]` or `node_modules/.bin/sequelize [command]`
