@@ -6,6 +6,9 @@
 * Provide PostgreSQL credentials `./config/config.json`
 * Start the app `npm start`
 
+# Run tests and linter (StandardJS)
+`npm test`
+
 # Sequelize CLI commands (migrations)
 `npx sequelize [command]` or `node_modules/.bin/sequelize [command]`
 
