@@ -1,0 +1,121 @@
+{
+	"info": {
+		"_postman_id": "218e7a1c-cdd0-4182-bd33-631c287a9e3d",
+		"name": "TOPIA API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/user/register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Joe Doe",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "joe@topia.io",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12qwaszx",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{serverUrl}}/user/register",
+					"host": [
+						"{{serverUrl}}"
+					],
+					"path": [
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/user/login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "joe@topia.io",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12qwaszx",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{serverUrl}}/user/login",
+					"host": [
+						"{{serverUrl}}"
+					],
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibmFtZSI6IkpvZSBEb2UiLCJpYXQiOjE1NTYxODEzOTksImV4cCI6MTU1ODc3MzM5OX0.TPFdDE7NSAqS0RBg0OuuvqJM4-NdEba1rZruKuwWgNw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{serverUrl}}/user",
+					"host": [
+						"{{serverUrl}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
