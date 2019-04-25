@@ -7,7 +7,10 @@
 * Start the app `npm start`
 
 # Run tests and linter (StandardJS)
-`npm test`
+* Setup database for test `./config/config.json`
+* Create database `NODE_ENV=test npx sequelize db:create`
+* Run linter and tests `npm test`
+* Only linter `npm lint`
 
 # Sequelize CLI commands (migrations)
 `npx sequelize [command]` or `node_modules/.bin/sequelize [command]`
