@@ -42,16 +42,17 @@ const login = async (email, plainPassword) => {
   return userResponse(user)
 }
 
-const userResponse = user => ({
-  token: generateJWT(user),
-  user: {
-    id: user.id,
-    email: user.email
-  }
-})
+const userResponse = user => {
+  const { id, email } = user
 
-const generateJWT = user =>
-  jwt.sign({ id: user.id, name: user.name }, config.jwtSecret, { expiresIn: '30d' })
+  return {
+    token: generateJWT(user),
+    user: { id, email }
+  }
+}
+
+const generateJWT = ({ id, name }) =>
+  jwt.sign({ id, name }, config.jwtSecret, { expiresIn: '30d' })
 
 export default {
   register, login, validate, generateJWT

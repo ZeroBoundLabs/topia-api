@@ -15,9 +15,9 @@ export default [
     method: 'POST',
     path: '/user/login',
     handler: (request, h) => {
-      const payload = request.payload
+      const { email, password } = request.payload
 
-      return UserService.login(payload.email, payload.password)
+      return UserService.login(email, password)
     },
     options: {
       auth: false,
@@ -34,9 +34,8 @@ export default [
     method: 'POST',
     path: '/user/register',
     handler: (request, h) => {
-      const payload = request.payload
-      const user = UserService.register(payload.name, payload.email,
-        payload.password)
+      const { name, email, password } = request.payload
+      const user = UserService.register(name, email, password)
 
       return user
     },
