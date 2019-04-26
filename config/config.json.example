@@ -4,7 +4,8 @@
     "password": null,
     "database": "database_development",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "jwtSecret": "NeverShareYourSecret"
   },
   "test": {
     "username": "root",
@@ -12,13 +13,15 @@
     "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "postgres",
-    "logging": false
+    "logging": false,
+    "jwtSecret": "NeverShareYourSecret"
   },
   "production": {
     "username": "root",
     "password": null,
     "database": "database_production",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "jwtSecret": "NeverShareYourSecret"
   }
 }
