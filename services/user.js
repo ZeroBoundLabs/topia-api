@@ -55,5 +55,5 @@ const generateJWT = ({ id, name }) =>
   jwt.sign({ id, name }, config.jwtSecret, { expiresIn: '30d' })
 
 export default {
-  register, login, validate, generateJWT
+  register, login, validate, generateJWT, hashPassword
 }
