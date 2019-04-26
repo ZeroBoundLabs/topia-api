@@ -4,6 +4,7 @@
 * Install dependencies `npm i`
 * Create database config `cp ./config/config.json.example ./config/config.json`
 * Provide PostgreSQL credentials `./config/config.json`
+* Seed database (optional) `npx sequelize db:seed:all`
 * Start the app `npm start`
 
 # Run tests and linter (StandardJS)
