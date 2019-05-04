@@ -4,6 +4,7 @@
 * Install dependencies `npm i`
 * Create database config `cp ./config/config.json.example ./config/config.json`
 * Provide PostgreSQL credentials `./config/config.json`
+* Create database and migrate `npx sequelize db:create && npx sequelize db:migrate`
 * Seed database (optional) `npx sequelize db:seed:all`
 * Start the app `npm start`
 
