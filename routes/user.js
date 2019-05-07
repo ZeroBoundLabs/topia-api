@@ -5,7 +5,12 @@ export default [
   {
     method: 'GET',
     path: '/user',
-    config: { auth: 'jwt' },
+    options: {
+      auth: 'jwt',
+      description: 'Get user',
+      notes: 'Returns user object. JWT token must be provided in the header.',
+      tags: ['api']
+    },
     handler: (request, h) => {
       return request.auth.credentials
     }
@@ -21,6 +26,9 @@ export default [
     },
     options: {
       auth: false,
+      description: 'Login',
+      notes: 'Allows to login user. In exchange you will receive JWT.',
+      tags: ['api'],
       validate: {
         payload: {
           email: Joi.string().email().required(),
@@ -41,6 +49,9 @@ export default [
     },
     options: {
       auth: false,
+      description: 'Register',
+      notes: 'Allows to register new user.',
+      tags: ['api'],
       validate: {
         payload: {
           name: Joi.string().min(3).max(200).required(),
