@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import Boom from 'boom'
 import config from '../config.js'
+import { pick } from 'ramda'
 
 export const validate = async (decoded, request) => {
   const user = await models.User.findOne({ where: { id: decoded.id } })
@@ -43,17 +44,83 @@ const login = async (email, plainPassword) => {
 }
 
 const userResponse = user => {
-  const { id, email } = user
+  const { id, email, name, role } = user
 
   return {
     token: generateJWT(user),
-    user: { id, email }
+    user: { id, email, name, role }
   }
 }
 
-const generateJWT = ({ id, name }) =>
-  jwt.sign({ id, name }, config.jwtSecret, { expiresIn: '30d' })
+const generateJWT = ({ id, name, role }) =>
+  jwt.sign({ id, name, scope: role }, config.jwtSecret, { expiresIn: '30d' })
+
+const findAll = async () => {
+  const users = await models.User.findAll({ attributes: { exclude: ['password'] } })
+
+  return users
+}
+
+const findOne = async (id) => {
+  const user = await models.User.findOne({
+    where: { id },
+    attributes: { exclude: ['password'] }
+  })
+
+  return user
+}
+
+const getUser = async (id) => {
+  const user = await findOne(id)
+
+  return userResponse(user)
+}
+
+const activate = async (id) => {
+  const user = await findOne(id)
+  user.active = true
+  await user.save()
+
+  return user
+}
+
+const deactivate = async (id) => {
+  const user = await findOne(id)
+  user.active = false
+  await user.save()
+
+  return user
+}
+
+const update = async (id, payload) => {
+  const user = await findOne(id)
+  const params = pick(['name', 'email', 'password'], payload)
+  if (params.password) {
+    params.password = await hashPassword(params.password)
+  }
+
+  await user.update(params)
+
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    password: user.password,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt
+  }
+}
 
 export default {
-  register, login, validate, generateJWT, hashPassword
+  register,
+  login,
+  validate,
+  generateJWT,
+  hashPassword,
+  findAll,
+  findOne,
+  activate,
+  deactivate,
+  update,
+  getUser
 }
