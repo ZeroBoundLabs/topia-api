@@ -35,7 +35,7 @@ const hashPassword = async plainPassword => {
 
 const login = async (email, plainPassword) => {
   const user = await models.User.findOne({ where: { email } })
-  if (!user) { throw Boom.notFound('User not found') }
+  if (!user || user.deletedAt !== null) { throw Boom.notFound('User not found') }
 
   const valid = await bcrypt.compare(plainPassword, user.password)
   if (!valid) { throw Boom.notFound('Wrong password') }
@@ -67,6 +67,8 @@ const findOne = async (id) => {
     attributes: { exclude: ['password'] }
   })
 
+  if (!user || user.deletedAt !== null) { throw Boom.notFound('User not found') }
+
   return user
 }
 
@@ -81,7 +83,7 @@ const activate = async (id) => {
   user.active = true
   await user.save()
 
-  return user
+  return fullUserResponse(user)
 }
 
 const deactivate = async (id) => {
@@ -89,8 +91,28 @@ const deactivate = async (id) => {
   user.active = false
   await user.save()
 
-  return user
+  return fullUserResponse(user)
 }
+
+const destroy = async (id) => {
+  const user = await findOne(id)
+  user.deletedAt = new Date()
+  await user.save()
+
+  return fullUserResponse(user)
+}
+
+const fullUserResponse = user => ({
+  id: user.id,
+  name: user.name,
+  email: user.email,
+  active: user.active,
+  role: user.role,
+  password: user.password,
+  createdAt: user.createdAt,
+  updatedAt: user.updatedAt,
+  deletedAt: user.deletedAt
+})
 
 const update = async (id, payload) => {
   const user = await findOne(id)
@@ -101,14 +123,14 @@ const update = async (id, payload) => {
 
   await user.update(params)
 
-  return {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    password: user.password,
-    createdAt: user.createdAt,
-    updatedAt: user.updatedAt
-  }
+  return fullUserResponse(user)
+}
+
+const assignRole = async (id, role) => {
+  const user = await findOne(id)
+  await user.update({ role })
+
+  return fullUserResponse(user)
 }
 
 export default {
@@ -122,5 +144,7 @@ export default {
   activate,
   deactivate,
   update,
-  getUser
+  getUser,
+  assignRole,
+  destroy
 }

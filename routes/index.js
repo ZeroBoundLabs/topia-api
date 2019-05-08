@@ -1,4 +1,5 @@
 import userRoutes from './user.js'
+import adminRoutes from './admin'
 
 const rootUrl = {
   method: 'GET',
@@ -10,5 +11,5 @@ const rootUrl = {
 }
 
 export default [
-  rootUrl, ...userRoutes
+  rootUrl, ...adminRoutes, ...userRoutes
 ]
