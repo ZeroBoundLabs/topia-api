@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import Boom from 'boom'
 import config from '../config.js'
 import { pick } from 'ramda'
+import { uploadFile } from './upload'
 
 export const validate = async (decoded, request) => {
   const user = await models.User.findOne({ where: { id: decoded.id } })
@@ -109,6 +110,7 @@ const fullUserResponse = user => ({
   active: user.active,
   role: user.role,
   password: user.password,
+  avatarFilename: user.avatarFilename,
   createdAt: user.createdAt,
   updatedAt: user.updatedAt,
   deletedAt: user.deletedAt
@@ -119,6 +121,15 @@ const update = async (id, payload) => {
   const params = pick(['name', 'email', 'password'], payload)
   if (params.password) {
     params.password = await hashPassword(params.password)
+  }
+
+  if (payload.avatarFile) {
+    const file = payload.avatarFile
+    const data = file._data
+    const sanitizedFilename = `avatar-${id}-${file.hapi.filename}`
+
+    await uploadFile(sanitizedFilename, data, 'user_avatar')
+    params.avatarFilename = sanitizedFilename
   }
 
   await user.update(params)

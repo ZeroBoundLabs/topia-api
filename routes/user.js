@@ -31,8 +31,12 @@ export default [
         payload: {
           name: Joi.string().min(3).max(200),
           email: Joi.string().email(),
-          password: Joi.string().min(3).max(200)
+          password: Joi.string().min(3).max(200),
+          avatarFile: Joi.any()
         }
+      },
+      payload: {
+        output: 'stream'
       }
     },
     handler: async (request, h) => {
@@ -85,6 +89,16 @@ export default [
           email: Joi.string().email().required(),
           password: Joi.string().min(3).max(200).required()
         }
+      }
+    }
+  },
+
+  {
+    method: 'GET',
+    path: '/uploads/users/{file*}',
+    handler: {
+      directory: {
+        path: 'uploads/users'
       }
     }
   }
