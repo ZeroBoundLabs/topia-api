@@ -70,3 +70,15 @@ HTML page (see next section).
 Once you have tagged your routes start the application. __The plugin adds a page into your site with the route `/documentation`__,
 so the the full URL for the above options would be `http://localhost:3000/documentation`.
 
+# Ethereum development setup
+* Install ganache-cli (Fast Ethereum RPC client for testing and development) `npm install -g ganache-cli`
+* Install truffle `npm install -g truffle`
+* Navigate to truffle directory `cd truffle`
+* Run local node in the separate tab:
+```
+ganache-cli -p 7575 -i 5777 --db ./ganache_db -d -m race bridge north visit currenwheel kiss analyst mule melody potato coast
+```
+* Compile contracts `truffle compile`
+* Migrate contracts `truffle migrate --reset`
+* Test contracts `truffle test`
+
