@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    const User = queryInterface.createTable('users', {
+    const Project = queryInterface.createTable('projects', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,14 +11,8 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      email: {
-        type: Sequelize.STRING
-      },
-      password: {
-        type: Sequelize.STRING
-      },
-      active: {
-        type: Sequelize.BOOLEAN
+      organisation_id: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -30,13 +24,15 @@ module.exports = {
       }
     })
 
-    User.associate = models => {
-      User.hasMany(models.Project)
+    Project.associate = models => {
+      Project.belongsTo(models.User, {
+        foreignKey: 'organisation_id'
+      })
     }
 
-    return User
+    return Project
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('users')
+    return queryInterface.dropTable('projects')
   }
 }
