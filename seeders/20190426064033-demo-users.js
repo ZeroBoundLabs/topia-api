@@ -7,7 +7,7 @@ module.exports = {
     const password = '12qwaszx'
     const hashedPass = await bcrypt.hash(password, saltRounds)
 
-    return queryInterface.bulkInsert('Users', [
+    return queryInterface.bulkInsert('users', [
       {
         name: 'John Admin',
         password: hashedPass,

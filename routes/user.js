@@ -4,6 +4,16 @@ import UserService from '../services/user'
 export default [
   {
     method: 'GET',
+    path: '/user-project',
+    handler: (request, h) => {
+      return {
+        a: 123
+      }
+    }
+  },
+
+  {
+    method: 'GET',
     path: '/user',
     config: { auth: 'jwt' },
     handler: (request, h) => {
