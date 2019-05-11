@@ -23,7 +23,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(2000)
       },
       createdAt: {
         allowNull: false,
@@ -76,6 +76,9 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('organisation_user')
+    return Promise.all([
+      queryInterface.dropTable('organisation_user'),
+      queryInterface.dropTable('organisations')
+    ])
   }
 }

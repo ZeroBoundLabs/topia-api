@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      title: {
         type: Sequelize.STRING
       },
       sdg_goal_no: {
@@ -27,21 +27,24 @@ module.exports = {
       }
     });
 
-    const SdgTarget = queryInterface.createTable('sdg_target', {
+    const SdgTarget = queryInterface.createTable('sdg_targets', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
-        type: Sequelize.STRING
+      title: {
+        type: Sequelize.STRING(2000)
       },
       sdg_id: {
         type: Sequelize.INTEGER
       },
+      code: {
+        type: Sequelize.STRING
+      },
       description: {
-        type: Sequelize.TEXT
+        type: Sequelize.STRING(2000)
       },
       createdAt: {
         allowNull: false,
@@ -59,14 +62,17 @@ module.exports = {
       })
     }
 
-    const SdgIndicator = queryInterface.createTable('sdg_indicator', {
+    const SdgIndicator = queryInterface.createTable('sdg_indicators', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      title: {
+        type: Sequelize.STRING
+      },
+      code: {
         type: Sequelize.STRING
       },
       description: {
@@ -100,8 +106,8 @@ module.exports = {
   down: (queryInterface, Sequelize) => {
     return Promise.all([
       queryInterface.dropTable('sdgs'),
-      queryInterface.dropTable('sdg_target'),
-      queryInterface.dropTable('sdg_indicator')
+      queryInterface.dropTable('sdg_targets'),
+      queryInterface.dropTable('sdg_indicators')
     ]);
   }
 };
