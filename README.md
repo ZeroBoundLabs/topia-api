@@ -4,6 +4,7 @@
 * Install dependencies `npm i`
 * Create database config `cp ./config/config.json.example ./config/config.json`
 * Provide PostgreSQL credentials `./config/config.json`
+* Create database and migrate `npx sequelize db:create && npx sequelize db:migrate`
 * Seed database (optional) `npx sequelize db:seed:all`
 * Start the app `npm start`
 
@@ -37,3 +38,35 @@ sequelize db:migrate                        Run pending migrations
   sequelize model:generate                    Generates a model and its migration
   sequelize seed:generate                     Generates a new seed file
 ```
+
+# Documenting API routes (swagger)
+As a project may be a mixture of web pages and API endpoints you need to tag the routes you wish Swagger to
+document. Simply add the `tags: ['api']` property to the route object for any endpoint you want documenting.
+
+You can even specify more tags and then later generate tag-specific documentation. If you specify
+`tags: ['api', 'foo']`, you can later use `/documentation?tags=foo` to load the documentation on the
+HTML page (see next section).
+
+```Javascript
+{
+    method: 'GET',
+    path: '/todo/{id}/',
+    options: {
+        handler: handlers.getToDo,
+        description: 'Get todo',
+        notes: 'Returns a todo item by the id passed in the path',
+        tags: ['api'], // ADD THIS TAG
+        validate: {
+            params: {
+                id : Joi.number()
+                        .required()
+                        .description('the id for the todo item'),
+            }
+        }
+    },
+}
+```
+
+Once you have tagged your routes start the application. __The plugin adds a page into your site with the route `/documentation`__,
+so the the full URL for the above options would be `http://localhost:3000/documentation`.
+

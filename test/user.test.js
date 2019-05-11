@@ -1,11 +1,15 @@
 import { init } from '../server.js'
 import UserServices from '../services/user'
 import models from '../models'
+import FormData from 'form-data'
+import streamToPromise from 'stream-to-promise'
 
 let server
+let validUser
 
 beforeAll(async () => {
   server = await init()
+  validUser = await UserServices.register('Valid Tester', 'valid@topia.io', 'password')
 })
 
 afterAll(async () => {
@@ -115,17 +119,19 @@ describe('POST /user/login', () => {
 
 describe('GET /user', () => {
   test('200 status code when valid JWT given', async () => {
-    const user = await UserServices.register('Valid Tester', 'valid@topia.io', 'password')
     const res = await server.inject({
       method: 'get',
       url: '/user',
       headers: {
-        'Authorization': user.token
+        'Authorization': validUser.token
       }
     })
+
+    const { user } = res.result
+
     expect(res.statusCode).toBe(200)
-    expect(res.name).toBe(user.name)
-    expect(res.id).toBe(user.id)
+    expect(user.name).toBe(validUser.user.name)
+    expect(user.id).toBe(validUser.user.id)
   })
 
   test('401 status code when invalid JWT given', async () => {
@@ -142,6 +148,98 @@ describe('GET /user', () => {
   test('401 status code when JWT not given', async () => {
     const res = await server.inject({
       method: 'get',
+      url: '/user'
+    })
+    expect(res.statusCode).toBe(401)
+  })
+})
+
+describe('PUT /user', () => {
+  test('changes name when given', async () => {
+    const form = new FormData()
+    form.append('name', 'New name')
+    const payload = await streamToPromise(form)
+
+    const res = await server.inject({
+      method: 'put',
+      url: '/user',
+      headers: {
+        'Authorization': validUser.token,
+        ...form.getHeaders()
+      },
+      payload
+    })
+
+    const { result } = res
+
+    expect(res.statusCode).toBe(200)
+    expect(result.name).not.toBe(validUser.user.name)
+    expect(result.id).toBe(validUser.user.id)
+    expect(result.password).toBe(undefined)
+  })
+
+  test('changes email when given', async () => {
+    const form = new FormData()
+    form.append('email', 'new@email.com')
+    const payload = await streamToPromise(form)
+
+    const res = await server.inject({
+      method: 'put',
+      url: '/user',
+      headers: {
+        'Authorization': validUser.token,
+        ...form.getHeaders()
+      },
+      payload
+    })
+    const { result } = res
+
+    expect(res.statusCode).toBe(200)
+    expect(result.email).not.toBe(validUser.user.email)
+    expect(result.email).toBe('new@email.com')
+    expect(result.id).toBe(validUser.user.id)
+    expect(result.password).toBe(undefined)
+  })
+
+  test('changes password when given', async () => {
+    const newPassword = 'newlongpassword'
+    const form = new FormData()
+    form.append('password', newPassword)
+    const payload = await streamToPromise(form)
+
+    const res = await server.inject({
+      method: 'put',
+      url: '/user',
+      headers: {
+        'Authorization': validUser.token,
+        ...form.getHeaders()
+      },
+      payload
+    })
+    const { result } = res
+
+    const loginResponse = await UserServices.login(result.email, newPassword)
+
+    expect(res.statusCode).toBe(200)
+    expect(result.id).toBe(validUser.user.id)
+    expect(result.password).not.toBe(undefined)
+    expect(result.id).toBe(loginResponse.user.id)
+  })
+
+  test('401 status code when invalid JWT given', async () => {
+    const res = await server.inject({
+      method: 'put',
+      url: '/user',
+      headers: {
+        'Authorization': 'You shall not pass'
+      }
+    })
+    expect(res.statusCode).toBe(401)
+  })
+
+  test('401 status code when JWT not given', async () => {
+    const res = await server.inject({
+      method: 'put',
       url: '/user'
     })
     expect(res.statusCode).toBe(401)
