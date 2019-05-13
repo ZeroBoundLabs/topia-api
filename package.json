@@ -43,6 +43,9 @@
   "standard": {
     "env": [
       "jest"
+    ],
+    "ignore": [
+      "/truffle"
     ]
   }
 }
