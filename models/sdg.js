@@ -1,15 +1,15 @@
-'use strict';
+'use strict'
 module.exports = (sequelize, DataTypes) => {
   const Sdg = sequelize.define('Sdg', {
     name: DataTypes.STRING,
     sdg_no: DataTypes.INTEGER,
     description: DataTypes.TEXT
-  }, {});
-  Sdg.associate = function(models) {
+  }, {})
+  Sdg.associate = function (models) {
     // associations can be defined here
-  };
-  return Sdg;
-};
+  }
+  return Sdg
+}
 /* By 2020, promote the implementation of sustainable management of all types
 of forests, halt deforestation, restore degraded forests and substantially
 increase afforestation and reforestation globally */

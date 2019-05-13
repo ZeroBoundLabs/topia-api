@@ -2,7 +2,6 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-
     const Organisation = queryInterface.createTable('organisations', {
       id: {
         allowNull: false,
@@ -35,8 +34,6 @@ module.exports = {
       }
     })
 
-
-
     const OrganisationUser = queryInterface.createTable('organisation_user', {
       id: {
         allowNull: false,
@@ -61,7 +58,7 @@ module.exports = {
     })
 
     OrganisationUser.associate = models => {
-      OrganisationUser.belongsTo(models.User, {
+      OrganisationUser.belongsTo(models.user, {
         foreignKey: 'user_id'
       })
       OrganisationUser.belongsTo(models.Organisation, {
@@ -72,7 +69,7 @@ module.exports = {
       OrganisationUser,
       Organisation
     ])
-    //return OrganisationUser
+    // return OrganisationUser
   },
 
   down: (queryInterface, Sequelize) => {

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 module.exports = {
   up: (queryInterface, Sequelize) => {
     const Tpi = queryInterface.createTable('tpis', {
@@ -37,7 +37,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
 
     Tpi.associate = models => {
       Tpi.belongsTo(models.Project, {
@@ -84,7 +84,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
     TpiData.associate = models => {
       TpiData.belongsTo(models.Tpi, {
         foreignKey: 'tpi_id'
@@ -104,4 +104,4 @@ module.exports = {
       queryInterface.dropTable('tpi_data')
     ])
   }
-};
+}

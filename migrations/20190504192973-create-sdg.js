@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 module.exports = {
   up: (queryInterface, Sequelize) => {
     const Sdg = queryInterface.createTable('sdgs', {
@@ -25,7 +25,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
 
     const SdgTarget = queryInterface.createTable('sdg_targets', {
       id: {
@@ -54,7 +54,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
 
     SdgTarget.associate = models => {
       SdgTarget.belongsTo(models.Sdg, {
@@ -89,7 +89,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
 
     SdgIndicator.associate = models => {
       SdgIndicator.belongsTo(models.SdgTarget, {
@@ -101,13 +101,12 @@ module.exports = {
       SdgTarget,
       SdgIndicator
     ])
-
   },
   down: (queryInterface, Sequelize) => {
     return Promise.all([
       queryInterface.dropTable('sdgs'),
       queryInterface.dropTable('sdg_targets'),
       queryInterface.dropTable('sdg_indicators')
-    ]);
+    ])
   }
-};
+}

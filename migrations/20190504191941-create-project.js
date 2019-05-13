@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 module.exports = {
   up: (queryInterface, Sequelize) => {
     const Project = queryInterface.createTable('projects', {
@@ -25,7 +25,7 @@ module.exports = {
     })
 
     Project.associate = models => {
-      Project.belongsTo(models.User, {
+      Project.belongsTo(models.user, {
         foreignKey: 'organisation_id'
       })
     }

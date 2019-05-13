@@ -128,24 +128,24 @@ module.exports = {
         code: '1.1',
         title: 'By 2030, eradicate extreme poverty for all people everywhere, currently measured as people living on less than $1.25 a day',
         description: 'By 2030, eradicate extreme poverty for all people everywhere, currently measured as people living on less than $1.25 a day',
-      createdAt: new Date(),
-      updatedAt: new Date()
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         sdg_id: '1',
         code: '1.2',
         title: 'By 2030, reduce at least by half the proportion of men, women and children of all ages living in poverty in all its dimensions according to national definitions',
         description: 'By 2030, reduce at least by half the proportion of men, women and children of all ages living in poverty in all its dimensions according to national definitions',
-      createdAt: new Date(),
-      updatedAt: new Date()
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         sdg_id: '1',
         code: '1.3',
         title: 'Implement nationally appropriate social protection systems and measures for all, including floors, and by 2030 achieve substantial coverage of the poor and the vulnerable',
         description: 'Implement nationally appropriate social protection systems and measures for all, including floors, and by 2030 achieve substantial coverage of the poor and the vulnerable',
-      createdAt: new Date(),
-      updatedAt: new Date()
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         sdg_id: '1',
@@ -154,7 +154,7 @@ module.exports = {
         description: 'By 2030, ensure that all men and women, in particular the poor and the vulnerable, have equal rights to economic resources, as well as access to basic services, ownership and control over land and other forms of property, inheritance, natural resources, appropriate new technology and financial services, including microfinance',
         createdAt: new Date(),
         updatedAt: new Date()
-        
+
       },
       {
         sdg_id: '1',
@@ -227,7 +227,7 @@ module.exports = {
         description: 'Increase investment, including through enhanced international cooperation, in rural infrastructure, agricultural research and extension services, technology development and plant and livestock gene banks in order to enhance agricultural productive capacity in developing countries, in particular least developed countries',
         createdAt: new Date(),
         updatedAt: new Date()
-        
+
       },
       {
         sdg_id: '2',
@@ -1498,7 +1498,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       }
-    ]);
+    ])
     const SdgIndicators = queryInterface.bulkInsert('sdg_indicators', [
 
       {
@@ -1538,14 +1538,13 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       }
-    ], {});
+    ], {})
 
     return Promise.all([
       sdgs,
       SdgTargets,
       SdgIndicators
     ])
-
   },
 
   down: (queryInterface, Sequelize) => {

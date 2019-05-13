@@ -7,7 +7,7 @@ import { pick } from 'ramda'
 import { uploadFile } from './upload'
 
 export const validate = async (decoded, request) => {
-  const user = await models.User.findOne({ where: { id: decoded.id } })
+  const user = await models.user.findOne({ where: { id: decoded.id } })
   // TO-DO Check if user activated
 
   if (!user) {
@@ -18,11 +18,11 @@ export const validate = async (decoded, request) => {
 }
 
 const register = async (name, email, plainPassword) => {
-  let user = await models.User.findOne({ where: { email } })
+  let user = await models.user.findOne({ where: { email } })
   if (user) { throw Boom.conflict('Email taken') }
 
   const password = await hashPassword(plainPassword)
-  user = await models.User.create({ name, email, password })
+  user = await models.user.create({ name, email, password })
 
   return userResponse(user)
 }
@@ -35,7 +35,7 @@ const hashPassword = async plainPassword => {
 }
 
 const login = async (email, plainPassword) => {
-  const user = await models.User.findOne({ where: { email } })
+  const user = await models.user.findOne({ where: { email } })
   if (!user || user.deletedAt !== null) { throw Boom.notFound('User not found') }
 
   const valid = await bcrypt.compare(plainPassword, user.password)
@@ -57,13 +57,13 @@ const generateJWT = ({ id, name, role }) =>
   jwt.sign({ id, name, scope: role }, config.jwtSecret, { expiresIn: '30d' })
 
 const findAll = async () => {
-  const users = await models.User.findAll({ attributes: { exclude: ['password'] } })
+  const users = await models.user.findAll({ attributes: { exclude: ['password'] } })
 
   return users
 }
 
 const findOne = async (id) => {
-  const user = await models.User.findOne({
+  const user = await models.user.findOne({
     where: { id },
     attributes: { exclude: ['password'] }
   })
