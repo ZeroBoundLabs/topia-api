@@ -4,8 +4,17 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     organisation_id: DataTypes.INTEGER
   }, {});
+
   Project.associate = function(models) {
     // associations can be defined here
+    Project.belongsTo(models.Organisation, {
+      foreignKey: 'organisation_id'
+    })
   };
+  sequelize.sync({ force: true })
+    .then(() => {
+      console.log(`Database & tables created!`)
+    })
+
   return Project;
 };
