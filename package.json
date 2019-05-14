@@ -2,13 +2,13 @@
   "name": "topia-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "pretest": "NODE_ENV=test npx sequelize db:drop && NODE_ENV=test npx sequelize db:create && NODE_ENV=test npx sequelize db:migrate",
     "lint": "standard | snazzy",
     "test": "standard | snazzy && NODE_ENV=test jest --detectOpenHandles",
     "vscode-test-debug": "NODE_ENV=test npx sequelize db:drop && NODE_ENV=test npx sequelize db:create && NODE_ENV=test npx sequelize db:migrate && NODE_ENV=test node --nolazy --inspect-brk=9229 node_modules/.bin/jest --detectOpenHandles",
-    "start": "nodemon --exec babel-node index.js",
+    "start": "nodemon --exec babel-node src/index.js",
     "format": "prettier-standard 'src/**/*.js'"
   },
   "author": "",
@@ -16,7 +16,9 @@
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/node": "^7.2.2",
+    "husky": "2.3.0",
     "jest": "^24.7.1",
+    "lint-staged": "8.1.6",
     "nodemon": "^1.18.11",
     "prettier-standard": "9.1.1",
     "standard": "^12.0.1"
@@ -46,5 +48,18 @@
     "env": [
       "jest"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "linters": {
+      "src/**/*.js": [
+        "prettier-standard",
+        "git add"
+      ]
+    }
   }
 }

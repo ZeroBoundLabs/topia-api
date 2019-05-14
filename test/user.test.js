@@ -1,6 +1,6 @@
-import { init } from '../server.js'
-import UserServices from '../services/user'
-import models from '../models'
+import { init } from '../src/server.js'
+import UserServices from '../src/services/user'
+import models from '../src/models'
 import FormData from 'form-data'
 import streamToPromise from 'stream-to-promise'
 

@@ -1,5 +1,5 @@
-import { init } from '../../server'
-import UserServices from '../../services/user'
+import { init } from '../../src/server'
+import UserServices from '../../src/services/user'
 
 let server
 let regular, admin
