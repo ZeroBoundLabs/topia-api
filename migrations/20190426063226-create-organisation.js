@@ -1,7 +1,9 @@
 'use strict'
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    const Project = queryInterface.createTable('projects', {
+
+    const Organisation = queryInterface.createTable('organisations', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,12 +13,17 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      organisation_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'organisations', // table name
-          key: 'id'
-        }
+      email: {
+        type: Sequelize.STRING
+      },
+      logo: {
+        type: Sequelize.STRING
+      },
+      type: {
+        type: Sequelize.STRING
+      },
+      description: {
+        type: Sequelize.STRING(2000)
       },
       createdAt: {
         allowNull: false,
@@ -28,15 +35,12 @@ module.exports = {
       }
     })
 
-    /*Project.associate = models => {
-      Project.belongsTo(models.User, {
-        foreignKey: 'organisation_id'
-      })
-    }*/
 
-    return Project
+    return Organisation;
+
   },
+
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('projects')
+    return queryInterface.dropTable('organisations')
   }
 }

@@ -1,31 +1,28 @@
-'use strict'
-
+'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-
-    const OrganisationUser = queryInterface.createTable('organisation_user', {
+    return queryInterface.createTable('sdg_targets', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      role: {
+      title: {
+        type: Sequelize.STRING(2000)
+      },
+      sdg_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'sdgs', // table name
+          key: 'id'
+        }
+      },
+      code: {
         type: Sequelize.STRING
       },
-      organisation_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'organisations', // table name
-          key: 'id'
-        }
-      },
-      user_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'users', // table name
-          key: 'id'
-        }
+      description: {
+        type: Sequelize.STRING(2000)
       },
       createdAt: {
         allowNull: false,
@@ -35,15 +32,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    })
-
-    return OrganisationUser
+    });
 
   },
-
   down: (queryInterface, Sequelize) => {
-    return Promise.all([
-      queryInterface.dropTable('organisation_user')
-    ])
+    return queryInterface.dropTable('sdg_targets')
   }
-}
+};

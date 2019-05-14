@@ -1,22 +1,24 @@
-'use strict'
+'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    const Project = queryInterface.createTable('projects', {
+    return queryInterface.createTable('tpi_data', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      title: {
         type: Sequelize.STRING
       },
-      organisation_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'organisations', // table name
-          key: 'id'
-        }
+      description: {
+        type: Sequelize.STRING
+      },
+      tpi_id: {
+        type: Sequelize.INTEGER
+      },
+      tpi_data_id: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -27,16 +29,8 @@ module.exports = {
         type: Sequelize.DATE
       }
     })
-
-    /*Project.associate = models => {
-      Project.belongsTo(models.User, {
-        foreignKey: 'organisation_id'
-      })
-    }*/
-
-    return Project
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('projects')
+    return queryInterface.dropTable('tpi_data')
   }
-}
+};

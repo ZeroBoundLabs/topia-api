@@ -10,11 +10,12 @@ module.exports = (sequelize, DataTypes) => {
     Project.belongsTo(models.Organisation, {
       foreignKey: 'organisation_id'
     })
-  };
-  sequelize.sync({ force: true })
-    .then(() => {
-      console.log(`Database & tables created!`)
-    })
+  }
+
 
   return Project;
 };
+sequelize.sync({ force: true })
+  .then(() => {
+    console.log(`Database & tables created!`)
+  })

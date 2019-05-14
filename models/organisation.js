@@ -11,12 +11,12 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Organisation.hasMany(models.Project)
   };
-  sequelize.sync({ force: true })
-    .then(() => {
-      console.log(`Database & tables created!`)
-    })
+
 
   return Organisation;
 };
-//,
-//     organisation_id: DataTypes.INTEGER
+
+sequelize.sync({ force: true })
+  .then(() => {
+    console.log(`Database & tables created!`)
+  })

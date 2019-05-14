@@ -15,15 +15,8 @@ module.exports = {
       updatedAt: new Date()
     }], {});
 
-    const OrganisationUser = queryInterface.bulkInsert('organisation_user', [{
-      role: 'admin',
-      organisation_id: 1,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }], {});
     return Promise.all([
-      seedOrganisations,
-      OrganisationUser
+      seedOrganisations
     ])
   },
 
