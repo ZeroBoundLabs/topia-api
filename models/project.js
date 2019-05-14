@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {})
   Project.associate = function (models) {
     // associations can be defined here
-    Project.belongsTo(models.organisation)
+    Project.belongsTo(models.organisation, { foreignKey: 'organisation_id' })
   }
   return Project
 }

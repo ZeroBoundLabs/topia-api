@@ -130,6 +130,13 @@ const addProject = async (id, callerId, payload) => {
   }
 }
 
+const getAllProjects = async (id) => {
+  const org = await findOne(id)
+  const projects = await org.getProjects()
+
+  return projects
+}
+
 const organisationResponse = organisation => ({
   id: organisation.id,
   name: organisation.name,
@@ -143,5 +150,13 @@ const organisationResponse = organisation => ({
 })
 
 export default {
-  findAll, create, destroy, getOne, update, addUser, removeUser, addProject
+  findAll,
+  create,
+  destroy,
+  getOne,
+  update,
+  addUser,
+  removeUser,
+  addProject,
+  getAllProjects
 }

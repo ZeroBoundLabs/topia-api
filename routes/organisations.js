@@ -176,5 +176,21 @@ export default [
 
       return project
     }
+  },
+
+  {
+    method: 'GET',
+    path: '/organisations/{id}/projects',
+    options: {
+      description: 'Get all projects',
+      notes: 'Returns array of given organisation projects ',
+      tags: ['api']
+    },
+    handler: async (request, h) => {
+      const projects = await OrganisationService
+        .getAllProjects(request.params.id)
+
+      return projects
+    }
   }
 ]
