@@ -34,7 +34,7 @@ module.exports = {
       }
     })
 
-    const OrganisationUser = queryInterface.createTable('organisation_user', {
+    const OrganisationUser = queryInterface.createTable('organisation_users', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -61,7 +61,7 @@ module.exports = {
       OrganisationUser.belongsTo(models.user, {
         foreignKey: 'user_id'
       })
-      OrganisationUser.belongsTo(models.Organisation, {
+      OrganisationUser.belongsTo(models.organisation, {
         foreignKey: 'organisation_id'
       })
     }
