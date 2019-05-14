@@ -1,4 +1,5 @@
 node_modules/
 config/config.json
 uploads/users/*
+uploads/organisations/*
 truffle/ganache_db/*

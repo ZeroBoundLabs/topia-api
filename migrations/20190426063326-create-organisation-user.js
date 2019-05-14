@@ -74,7 +74,7 @@ module.exports = {
 
   down: (queryInterface, Sequelize) => {
     return Promise.all([
-      queryInterface.dropTable('organisation_user'),
+      queryInterface.dropTable('organisation_users'),
       queryInterface.dropTable('organisations')
     ])
   }
