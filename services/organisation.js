@@ -58,9 +58,11 @@ const findOne = async (id) => {
     where: { id, deletedAt: null }
   })
 
-  if (!organisation) { throw Boom.notFound('Organisation not found') }
-
-  return organisation
+  if (!organisation) {
+    throw Boom.notFound('Organisation not found')
+  } else {
+    return organisation
+  }
 }
 
 const getOne = async (id) => {
@@ -158,5 +160,6 @@ export default {
   addUser,
   removeUser,
   addProject,
-  getAllProjects
+  getAllProjects,
+  isMember
 }

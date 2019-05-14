@@ -1,5 +1,6 @@
 import userRoutes from './user.js'
 import organisationRoutes from './organisations.js'
+import projectRoutes from './projects.js'
 import adminRoutes from './admin'
 
 const rootUrl = {
@@ -12,5 +13,9 @@ const rootUrl = {
 }
 
 export default [
-  rootUrl, ...adminRoutes, ...userRoutes, ...organisationRoutes
+  rootUrl,
+  ...adminRoutes,
+  ...userRoutes,
+  ...organisationRoutes,
+  ...projectRoutes
 ]
