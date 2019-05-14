@@ -20,6 +20,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {})
   Organisation.associate = function (models) {
     // associations can be defined here
+    Organisation.hasMany(models.project, { foreignKey: 'organisation_id' })
+
     Organisation.belongsToMany(models.user, {
       otherKey: 'user_id',
       foreignKey: 'organisation_id',

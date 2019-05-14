@@ -118,6 +118,18 @@ const removeUser = async (id, callerId, payload) => {
   return org
 }
 
+const addProject = async (id, callerId, payload) => {
+  const org = await findOne(id)
+
+  if (await isMember(org, callerId)) {
+    const project = await org.createProject({ name: payload.name })
+
+    return project
+  } else {
+    throw Boom.unauthorized('Unsufficient permissions')
+  }
+}
+
 const organisationResponse = organisation => ({
   id: organisation.id,
   name: organisation.name,
@@ -131,5 +143,5 @@ const organisationResponse = organisation => ({
 })
 
 export default {
-  findAll, create, destroy, getOne, update, addUser, removeUser
+  findAll, create, destroy, getOne, update, addUser, removeUser, addProject
 }

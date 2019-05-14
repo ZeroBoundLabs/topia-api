@@ -153,5 +153,28 @@ export default [
 
       return organisation
     }
+  },
+
+  {
+    method: 'POST',
+    path: '/organisations/{id}/projects',
+    options: {
+      auth: 'jwt',
+      description: 'Create project',
+      notes: 'Add new project under organisation. JWT required.',
+      tags: ['api'],
+      validate: {
+        payload: {
+          name: Joi.string().required()
+        }
+      }
+    },
+    handler: async (request, h) => {
+      const callerId = request.auth.credentials.id
+      const project = await OrganisationService
+        .addProject(request.params.id, callerId, request.payload)
+
+      return project
+    }
   }
 ]
