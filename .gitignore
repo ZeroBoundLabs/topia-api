@@ -4,3 +4,4 @@ uploads/users/*
 uploads/organisations/*
 truffle/ganache_db/*
 .idea/
+logs/*
