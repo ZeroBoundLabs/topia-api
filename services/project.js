@@ -10,7 +10,7 @@ const findAll = async () => {
   return projects
 }
 
-const findOne = async (id) => {
+const findOne = async id => {
   const project = await models.project.findOne({
     where: { id, deletedAt: null }
   })
@@ -46,5 +46,8 @@ const destroy = async (id, userId) => {
 }
 
 export default {
-  findAll, findOne, update, destroy
+  findAll,
+  findOne,
+  update,
+  destroy
 }

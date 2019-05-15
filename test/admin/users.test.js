@@ -6,8 +6,16 @@ let regular, admin
 
 beforeAll(async () => {
   server = await init()
-  regular = await UserServices.register('Joe Tester', 'joe1@topia.io', 'password')
-  admin = await UserServices.register('Admin Tester', 'rootadmin@topia.io', 'password')
+  regular = await UserServices.register(
+    'Joe Tester',
+    'joe1@topia.io',
+    'password'
+  )
+  admin = await UserServices.register(
+    'Admin Tester',
+    'rootadmin@topia.io',
+    'password'
+  )
   await UserServices.assignRole(admin.user.id, 'admin')
   admin = await UserServices.login('rootadmin@topia.io', 'password')
 })
@@ -30,7 +38,7 @@ describe('DELETE /admin/user/{id}', () => {
       method: 'delete',
       url: `/admin/user/${regular.user.id}`,
       headers: {
-        'Authorization': 'You shall not pass'
+        Authorization: 'You shall not pass'
       }
     })
 
@@ -42,7 +50,7 @@ describe('DELETE /admin/user/{id}', () => {
       method: 'delete',
       url: `/admin/user/${regular.user.id}`,
       headers: {
-        'Authorization': regular.token
+        Authorization: regular.token
       }
     })
 
@@ -50,12 +58,16 @@ describe('DELETE /admin/user/{id}', () => {
   })
 
   test('delete specifc user when admin calls', async () => {
-    let garbage = await UserServices.register('Joe Garbage', 'garbage@topia.io', 'password')
+    let garbage = await UserServices.register(
+      'Joe Garbage',
+      'garbage@topia.io',
+      'password'
+    )
     let res = await server.inject({
       method: 'delete',
       url: `/admin/user/${garbage.user.id}`,
       headers: {
-        'Authorization': admin.token
+        Authorization: admin.token
       }
     })
 
@@ -66,7 +78,7 @@ describe('DELETE /admin/user/{id}', () => {
       method: 'delete',
       url: `/admin/user/${garbage.user.id}`,
       headers: {
-        'Authorization': admin.token
+        Authorization: admin.token
       }
     })
     expect(res.statusCode).toBe(404)
@@ -87,7 +99,7 @@ describe('GET /admin/user/{id}/deactivate', () => {
       method: 'put',
       url: `/admin/user/${regular.user.id}/deactivate`,
       headers: {
-        'Authorization': 'You shall not pass'
+        Authorization: 'You shall not pass'
       }
     })
 
@@ -99,7 +111,7 @@ describe('GET /admin/user/{id}/deactivate', () => {
       method: 'put',
       url: `/admin/user/${regular.user.id}/deactivate`,
       headers: {
-        'Authorization': regular.token
+        Authorization: regular.token
       }
     })
 
@@ -111,7 +123,7 @@ describe('GET /admin/user/{id}/deactivate', () => {
       method: 'put',
       url: `/admin/user/${regular.user.id}/deactivate`,
       headers: {
-        'Authorization': admin.token
+        Authorization: admin.token
       }
     })
 
@@ -134,7 +146,7 @@ describe('GET /admin/user/{id}/activate', () => {
       method: 'put',
       url: `/admin/user/${regular.user.id}/activate`,
       headers: {
-        'Authorization': 'You shall not pass'
+        Authorization: 'You shall not pass'
       }
     })
 
@@ -146,7 +158,7 @@ describe('GET /admin/user/{id}/activate', () => {
       method: 'put',
       url: `/admin/user/${regular.user.id}/activate`,
       headers: {
-        'Authorization': regular.token
+        Authorization: regular.token
       }
     })
 
@@ -158,7 +170,7 @@ describe('GET /admin/user/{id}/activate', () => {
       method: 'put',
       url: `/admin/user/${regular.user.id}/activate`,
       headers: {
-        'Authorization': admin.token
+        Authorization: admin.token
       }
     })
 
@@ -181,7 +193,7 @@ describe('GET /admin/user/{id}', () => {
       method: 'get',
       url: `/admin/user/${regular.user.id}`,
       headers: {
-        'Authorization': 'You shall not pass'
+        Authorization: 'You shall not pass'
       }
     })
 
@@ -193,7 +205,7 @@ describe('GET /admin/user/{id}', () => {
       method: 'get',
       url: `/admin/user/${regular.user.id}`,
       headers: {
-        'Authorization': regular.token
+        Authorization: regular.token
       }
     })
 
@@ -205,7 +217,7 @@ describe('GET /admin/user/{id}', () => {
       method: 'get',
       url: `/admin/user/${regular.user.id}`,
       headers: {
-        'Authorization': admin.token
+        Authorization: admin.token
       }
     })
 
@@ -228,7 +240,7 @@ describe('GET /admin/users', () => {
       method: 'get',
       url: '/admin/users',
       headers: {
-        'Authorization': 'You shall not pass'
+        Authorization: 'You shall not pass'
       }
     })
 
@@ -240,7 +252,7 @@ describe('GET /admin/users', () => {
       method: 'get',
       url: '/admin/users',
       headers: {
-        'Authorization': regular.token
+        Authorization: regular.token
       }
     })
 
@@ -252,7 +264,7 @@ describe('GET /admin/users', () => {
       method: 'get',
       url: '/admin/users',
       headers: {
-        'Authorization': admin.token
+        Authorization: admin.token
       }
     })
 
@@ -267,7 +279,7 @@ describe('PUT /admin/user/{id}', () => {
       method: 'put',
       url: `/admin/user/${regular.user.id}`,
       headers: {
-        'Authorization': admin.token
+        Authorization: admin.token
       },
       payload: {
         name: 'New name'
@@ -287,7 +299,7 @@ describe('PUT /admin/user/{id}', () => {
       method: 'put',
       url: `/admin/user/${regular.user.id}`,
       headers: {
-        'Authorization': admin.token
+        Authorization: admin.token
       },
       payload: {
         email: 'new@superemail.com'
@@ -308,7 +320,7 @@ describe('PUT /admin/user/{id}', () => {
       method: 'put',
       url: `/admin/user/${regular.user.id}`,
       headers: {
-        'Authorization': admin.token
+        Authorization: admin.token
       },
       payload: {
         password: newPassword
@@ -316,7 +328,10 @@ describe('PUT /admin/user/{id}', () => {
     })
     const { result } = res
 
-    const loginResponse = await UserServices.login(result.user.email, newPassword)
+    const loginResponse = await UserServices.login(
+      result.user.email,
+      newPassword
+    )
 
     expect(res.statusCode).toBe(200)
     expect(result.user.id).toBe(regular.user.id)
@@ -337,7 +352,7 @@ describe('PUT /admin/user/{id}', () => {
       method: 'put',
       url: `/admin/user/${regular.user.id}`,
       headers: {
-        'Authorization': 'You shall not pass'
+        Authorization: 'You shall not pass'
       }
     })
 
@@ -349,7 +364,7 @@ describe('PUT /admin/user/{id}', () => {
       method: 'put',
       url: `/admin/user/${regular.user.id}`,
       headers: {
-        'Authorization': regular.token
+        Authorization: regular.token
       }
     })
 

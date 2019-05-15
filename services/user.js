@@ -19,7 +19,9 @@ export const validate = async (decoded, request) => {
 
 const register = async (name, email, plainPassword) => {
   let user = await models.user.findOne({ where: { email } })
-  if (user) { throw Boom.conflict('Email taken') }
+  if (user) {
+    throw Boom.conflict('Email taken')
+  }
 
   const password = await hashPassword(plainPassword)
   user = await models.user.create({ name, email, password })
@@ -36,10 +38,14 @@ const hashPassword = async plainPassword => {
 
 const login = async (email, plainPassword) => {
   const user = await models.user.findOne({ where: { email } })
-  if (!user || user.deletedAt !== null) { throw Boom.notFound('User not found') }
+  if (!user || user.deletedAt !== null) {
+    throw Boom.notFound('User not found')
+  }
 
   const valid = await bcrypt.compare(plainPassword, user.password)
-  if (!valid) { throw Boom.notFound('Wrong password') }
+  if (!valid) {
+    throw Boom.notFound('Wrong password')
+  }
 
   return userResponse(user)
 }
@@ -57,29 +63,33 @@ const generateJWT = ({ id, name, role }) =>
   jwt.sign({ id, name, scope: role }, config.jwtSecret, { expiresIn: '30d' })
 
 const findAll = async () => {
-  const users = await models.user.findAll({ attributes: { exclude: ['password'] } })
+  const users = await models.user.findAll({
+    attributes: { exclude: ['password'] }
+  })
 
   return users
 }
 
-const findOne = async (id) => {
+const findOne = async id => {
   const user = await models.user.findOne({
     where: { id },
     attributes: { exclude: ['password'] }
   })
 
-  if (!user || user.deletedAt !== null) { throw Boom.notFound('User not found') }
+  if (!user || user.deletedAt !== null) {
+    throw Boom.notFound('User not found')
+  }
 
   return user
 }
 
-const getUser = async (id) => {
+const getUser = async id => {
   const user = await findOne(id)
 
   return userResponse(user)
 }
 
-const activate = async (id) => {
+const activate = async id => {
   const user = await findOne(id)
   user.active = true
   await user.save()
@@ -87,7 +97,7 @@ const activate = async (id) => {
   return fullUserResponse(user)
 }
 
-const deactivate = async (id) => {
+const deactivate = async id => {
   const user = await findOne(id)
   user.active = false
   await user.save()
@@ -95,7 +105,7 @@ const deactivate = async (id) => {
   return fullUserResponse(user)
 }
 
-const destroy = async (id) => {
+const destroy = async id => {
   const user = await findOne(id)
   user.deletedAt = new Date()
   await user.save()

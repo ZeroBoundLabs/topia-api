@@ -37,7 +37,11 @@ export default [
     handler: async (request, h) => {
       const userId = request.auth.credentials.id
       const { payload } = request
-      const organisation = ProjectService.update(request.params.id, payload, userId)
+      const organisation = ProjectService.update(
+        request.params.id,
+        payload,
+        userId
+      )
 
       return organisation
     },
@@ -48,7 +52,9 @@ export default [
       tags: ['api'],
       validate: {
         payload: {
-          name: Joi.string().min(3).max(200)
+          name: Joi.string()
+            .min(3)
+            .max(200)
         }
       }
     }

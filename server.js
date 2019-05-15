@@ -38,12 +38,11 @@ const setupServer = async () => {
     HapiJWT
   ])
 
-  server.auth.strategy('jwt', 'jwt',
-    { key: config.jwtSecret,
-      validate: validate,
-      verifyOptions: { algorithms: [ 'HS256' ] }
-    }
-  )
+  server.auth.strategy('jwt', 'jwt', {
+    key: config.jwtSecret,
+    validate: validate,
+    verifyOptions: { algorithms: ['HS256'] }
+  })
   server.route(routes)
 
   return server

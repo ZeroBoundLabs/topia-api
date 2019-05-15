@@ -41,11 +41,19 @@ export default [
       tags: ['api'],
       validate: {
         payload: {
-          name: Joi.string().min(3).max(200),
+          name: Joi.string()
+            .min(3)
+            .max(200),
           email: Joi.string().email(),
-          logo: Joi.string().min(3).max(200),
-          type: Joi.string().min(3).max(200),
-          description: Joi.string().min(3).max(2000),
+          logo: Joi.string()
+            .min(3)
+            .max(200),
+          type: Joi.string()
+            .min(3)
+            .max(200),
+          description: Joi.string()
+            .min(3)
+            .max(2000),
           logoFile: Joi.any()
         }
       },
@@ -68,8 +76,11 @@ export default [
     handler: async (request, h) => {
       const userId = request.auth.credentials.id
       const { payload } = request
-      const organisation = OrganisationService
-        .create(request.params.id, payload, userId)
+      const organisation = OrganisationService.create(
+        request.params.id,
+        payload,
+        userId
+      )
 
       return organisation
     },
@@ -80,11 +91,19 @@ export default [
       tags: ['api'],
       validate: {
         payload: {
-          name: Joi.string().min(3).max(200),
+          name: Joi.string()
+            .min(3)
+            .max(200),
           email: Joi.string().email(),
-          logo: Joi.string().min(3).max(200),
-          type: Joi.string().min(3).max(200),
-          description: Joi.string().min(3).max(2000),
+          logo: Joi.string()
+            .min(3)
+            .max(200),
+          type: Joi.string()
+            .min(3)
+            .max(200),
+          description: Joi.string()
+            .min(3)
+            .max(2000),
           logoFile: Joi.any()
         }
       }
@@ -102,7 +121,10 @@ export default [
     },
     handler: async (request, h) => {
       const userId = request.auth.credentials.id
-      const organisation = await OrganisationService.destroy(request.params.id, userId)
+      const organisation = await OrganisationService.destroy(
+        request.params.id,
+        userId
+      )
 
       return organisation
     }
@@ -118,15 +140,20 @@ export default [
       tags: ['api'],
       validate: {
         payload: {
-          userId: Joi.number().integer().required(),
+          userId: Joi.number()
+            .integer()
+            .required(),
           role: Joi.string().required()
         }
       }
     },
     handler: async (request, h) => {
       const callerId = request.auth.credentials.id
-      const organisation = await OrganisationService
-        .addUser(request.params.id, callerId, request.payload)
+      const organisation = await OrganisationService.addUser(
+        request.params.id,
+        callerId,
+        request.payload
+      )
 
       return organisation
     }
@@ -142,14 +169,19 @@ export default [
       tags: ['api'],
       validate: {
         payload: {
-          userId: Joi.number().integer().required()
+          userId: Joi.number()
+            .integer()
+            .required()
         }
       }
     },
     handler: async (request, h) => {
       const callerId = request.auth.credentials.id
-      const organisation = await OrganisationService
-        .removeUser(request.params.id, callerId, request.payload)
+      const organisation = await OrganisationService.removeUser(
+        request.params.id,
+        callerId,
+        request.payload
+      )
 
       return organisation
     }
@@ -171,8 +203,11 @@ export default [
     },
     handler: async (request, h) => {
       const callerId = request.auth.credentials.id
-      const project = await OrganisationService
-        .addProject(request.params.id, callerId, request.payload)
+      const project = await OrganisationService.addProject(
+        request.params.id,
+        callerId,
+        request.payload
+      )
 
       return project
     }
@@ -187,8 +222,9 @@ export default [
       tags: ['api']
     },
     handler: async (request, h) => {
-      const projects = await OrganisationService
-        .getAllProjects(request.params.id)
+      const projects = await OrganisationService.getAllProjects(
+        request.params.id
+      )
 
       return projects
     }
