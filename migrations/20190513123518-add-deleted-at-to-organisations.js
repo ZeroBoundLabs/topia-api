@@ -4,8 +4,8 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.sequelize.transaction((t) => {
       return Promise.all([
-        queryInterface.addColumn('users', 'role', {
-          type: Sequelize.STRING, defaultValue: 'regular'
+        queryInterface.addColumn('organisations', 'deletedAt', {
+          type: Sequelize.DATE, defaultValue: null
         }, { transaction: t })
       ])
     })
@@ -14,7 +14,7 @@ module.exports = {
   down: (queryInterface, Sequelize) => {
     return queryInterface.sequelize.transaction((t) => {
       return Promise.all([
-        queryInterface.removeColumn('users', 'role', { transaction: t })
+        queryInterface.removeColumn('organisations', 'deletedAt', { transaction: t })
       ])
     })
   }

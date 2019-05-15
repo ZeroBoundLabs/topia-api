@@ -54,7 +54,7 @@ describe('POST /user/register', () => {
       }
     })
 
-    const userDb = await models.User.findOne({ where: { email } })
+    const userDb = await models.user.findOne({ where: { email } })
 
     expect(res.statusCode).toBe(200)
     expect(res.result.user.email).toBe('joe@topia.io')
