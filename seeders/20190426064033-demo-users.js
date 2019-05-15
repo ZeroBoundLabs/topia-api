@@ -13,7 +13,8 @@ module.exports = {
         password: hashedPass,
         email: 'admin@topia.io',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        role: 'admin'
       }
     ], {})
   },
