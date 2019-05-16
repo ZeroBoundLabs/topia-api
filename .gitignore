@@ -5,4 +5,4 @@ uploads/organisations/*
 truffle/ganache_db/*
 .idea/
 logs/*
-dist/*
+dist/bundle.js
