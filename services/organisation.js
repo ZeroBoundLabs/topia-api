@@ -17,7 +17,8 @@ const updateLogo = async (model, file) => {
 
   await uploadFile(sanitizedFilename, data, 'organisation_logo')
   const updated = await model.update(
-    { logo: sanitizedFilename }, { fields: ['logo'] }
+    { logo: sanitizedFilename },
+    { fields: ['logo'] }
   )
 
   return updated
@@ -40,7 +41,10 @@ const update = async (id, payload, userId) => {
   const organisation = await findOne(id)
 
   if (await isMember(organisation, userId)) {
-    const params = pick(['name', 'email', 'logo', 'type', 'description'], payload)
+    const params = pick(
+      ['name', 'email', 'logo', 'type', 'description'],
+      payload
+    )
     let org = await organisation.update(params)
 
     if (payload.logoFile) {
@@ -53,7 +57,7 @@ const update = async (id, payload, userId) => {
   }
 }
 
-const findOne = async (id) => {
+const findOne = async id => {
   const organisation = await models.organisation.findOne({
     where: { id, deletedAt: null }
   })
@@ -65,7 +69,7 @@ const findOne = async (id) => {
   }
 }
 
-const getOne = async (id) => {
+const getOne = async id => {
   const org = await findOne(id)
 
   return organisationResponse(org)
@@ -106,8 +110,9 @@ const removeUser = async (id, callerId, payload) => {
   const org = await findOne(id)
 
   if (await isMember(org, callerId)) {
-    const relation = await models.organisation_user
-      .findOne({ where: { organisation_id: id, user_id: payload.userId } })
+    const relation = await models.organisation_user.findOne({
+      where: { organisation_id: id, user_id: payload.userId }
+    })
     if (relation) {
       await relation.destroy({ force: true })
     } else {
@@ -132,7 +137,7 @@ const addProject = async (id, callerId, payload) => {
   }
 }
 
-const getAllProjects = async (id) => {
+const getAllProjects = async id => {
   const org = await findOne(id)
   const projects = await org.getProjects()
 

@@ -1,0 +1,7 @@
+node_modules/
+.postman/
+.vscode/
+truffle/
+models/
+migrations/
+seeders/

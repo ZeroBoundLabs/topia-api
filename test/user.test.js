@@ -9,7 +9,11 @@ let validUser
 
 beforeAll(async () => {
   server = await init()
-  validUser = await UserServices.register('Valid Tester', 'valid@topia.io', 'password')
+  validUser = await UserServices.register(
+    'Valid Tester',
+    'valid@topia.io',
+    'password'
+  )
 })
 
 afterAll(async () => {
@@ -123,7 +127,7 @@ describe('GET /user', () => {
       method: 'get',
       url: '/user',
       headers: {
-        'Authorization': validUser.token
+        Authorization: validUser.token
       }
     })
 
@@ -139,7 +143,7 @@ describe('GET /user', () => {
       method: 'get',
       url: '/user',
       headers: {
-        'Authorization': 'You shall not pass'
+        Authorization: 'You shall not pass'
       }
     })
     expect(res.statusCode).toBe(401)
@@ -164,7 +168,7 @@ describe('PUT /user', () => {
       method: 'put',
       url: '/user',
       headers: {
-        'Authorization': validUser.token,
+        Authorization: validUser.token,
         ...form.getHeaders()
       },
       payload
@@ -187,7 +191,7 @@ describe('PUT /user', () => {
       method: 'put',
       url: '/user',
       headers: {
-        'Authorization': validUser.token,
+        Authorization: validUser.token,
         ...form.getHeaders()
       },
       payload
@@ -211,7 +215,7 @@ describe('PUT /user', () => {
       method: 'put',
       url: '/user',
       headers: {
-        'Authorization': validUser.token,
+        Authorization: validUser.token,
         ...form.getHeaders()
       },
       payload
@@ -231,7 +235,7 @@ describe('PUT /user', () => {
       method: 'put',
       url: '/user',
       headers: {
-        'Authorization': 'You shall not pass'
+        Authorization: 'You shall not pass'
       }
     })
     expect(res.statusCode).toBe(401)

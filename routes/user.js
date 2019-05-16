@@ -35,13 +35,18 @@ export default [
     options: {
       auth: 'jwt',
       description: 'Update user',
-      notes: 'Allows to update personal data of user. JWT token must be provided in the header.',
+      notes:
+        'Allows to update personal data of user. JWT token must be provided in the header.',
       tags: ['api'],
       validate: {
         payload: {
-          name: Joi.string().min(3).max(200),
+          name: Joi.string()
+            .min(3)
+            .max(200),
           email: Joi.string().email(),
-          password: Joi.string().min(3).max(200),
+          password: Joi.string()
+            .min(3)
+            .max(200),
           avatarFile: Joi.any()
         }
       },
@@ -72,8 +77,13 @@ export default [
       tags: ['api'],
       validate: {
         payload: {
-          email: Joi.string().email().required(),
-          password: Joi.string().min(3).max(200).required()
+          email: Joi.string()
+            .email()
+            .required(),
+          password: Joi.string()
+            .min(3)
+            .max(200)
+            .required()
         }
       }
     }
@@ -95,9 +105,17 @@ export default [
       tags: ['api'],
       validate: {
         payload: {
-          name: Joi.string().min(3).max(200).required(),
-          email: Joi.string().email().required(),
-          password: Joi.string().min(3).max(200).required()
+          name: Joi.string()
+            .min(3)
+            .max(200)
+            .required(),
+          email: Joi.string()
+            .email()
+            .required(),
+          password: Joi.string()
+            .min(3)
+            .max(200)
+            .required()
         }
       }
     }

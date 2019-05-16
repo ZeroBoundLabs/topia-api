@@ -1,5 +1,3 @@
 import userRoutes from './users.js'
 
-export default [
-  ...userRoutes
-]
+export default [...userRoutes]

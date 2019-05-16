@@ -3,9 +3,11 @@ import Joi from 'joi'
 
 const auth = {
   strategy: 'jwt',
-  access: [{
-    scope: ['admin']
-  }]
+  access: [
+    {
+      scope: ['admin']
+    }
+  ]
 }
 
 export default [
@@ -15,7 +17,8 @@ export default [
     options: {
       auth,
       description: 'Get all users',
-      notes: 'Returns all users existing in system. JWT token must be provided in the header and caller must be an admin.',
+      notes:
+        'Returns all users existing in system. JWT token must be provided in the header and caller must be an admin.',
       tags: ['api']
     },
     handler: async (request, h) => {
@@ -29,7 +32,8 @@ export default [
     options: {
       auth,
       description: 'Get user',
-      notes: 'Returns specific user existing in system. JWT token must be provided in the header and caller must be an admin.',
+      notes:
+        'Returns specific user existing in system. JWT token must be provided in the header and caller must be an admin.',
       tags: ['api']
     },
     handler: async (request, h) => {
@@ -43,7 +47,8 @@ export default [
     options: {
       auth,
       description: 'Activate user',
-      notes: 'Activate user. JWT token must be provided in the header and caller must be an admin.',
+      notes:
+        'Activate user. JWT token must be provided in the header and caller must be an admin.',
       tags: ['api']
     },
     handler: async (request, h) => {
@@ -57,7 +62,8 @@ export default [
     options: {
       auth,
       description: 'Deactivate user',
-      notes: 'Deactivate user. JWT token must be provided in the header and caller must be an admin.',
+      notes:
+        'Deactivate user. JWT token must be provided in the header and caller must be an admin.',
       tags: ['api']
     },
     handler: async (request, h) => {
@@ -71,14 +77,21 @@ export default [
     options: {
       auth,
       description: 'Update user',
-      notes: 'Updates user data. JWT token must be provided in the header and caller must be an admin.',
+      notes:
+        'Updates user data. JWT token must be provided in the header and caller must be an admin.',
       tags: ['api'],
       validate: {
         payload: {
-          name: Joi.string().min(3).max(200),
+          name: Joi.string()
+            .min(3)
+            .max(200),
           email: Joi.string().email(),
-          password: Joi.string().min(3).max(200),
-          role: Joi.string().min(3).max(200)
+          password: Joi.string()
+            .min(3)
+            .max(200),
+          role: Joi.string()
+            .min(3)
+            .max(200)
         }
       }
     },
@@ -100,7 +113,8 @@ export default [
     options: {
       auth,
       description: 'Delete user',
-      notes: 'Deletes user (soft delete). JWT token must be provided in the header and caller must be an admin.',
+      notes:
+        'Deletes user (soft delete). JWT token must be provided in the header and caller must be an admin.',
       tags: ['api']
     },
     handler: async (request, h) => {
