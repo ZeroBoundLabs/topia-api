@@ -25,7 +25,11 @@ function getModels (config, force = false) {
     require('./project.js'),
     require('./sdg.js'),
     require('./tpi.js'),
-    require('./user.js')
+    require('./user.js'),
+    require('./project_tpi.js'),
+    require('./sdg_target.js'),
+    require('./sdg_indicator.js'),
+    require('./tpi_data.js')
   ]
 
   // Initialize models
