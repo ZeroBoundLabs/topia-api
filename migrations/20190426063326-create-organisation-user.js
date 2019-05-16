@@ -45,7 +45,18 @@ module.exports = {
         type: Sequelize.STRING
       },
       organisation_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'organisations', // table name
+          key: 'id'
+        }
+      },
+      user_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'users', // table name
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,

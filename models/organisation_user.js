@@ -7,6 +7,12 @@ module.exports = (sequelize, DataTypes) => {
   }, {})
   OrganisationUser.associate = function (models) {
     // associations can be defined here
+    OrganisationUser.belongsTo(models.organisation, {
+      foreignKey: 'organisation_id'
+    })
+    OrganisationUser.belongsTo(models.user, {
+      foreignKey: 'user_id'
+    })
   }
   return OrganisationUser
 }
