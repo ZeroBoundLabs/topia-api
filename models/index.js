@@ -1,36 +1,50 @@
-'use strict'
-import config from '../config.js'
-const fs = require('fs')
-const path = require('path')
-const Sequelize = require('sequelize')
-const basename = path.basename(__filename)
+import Sequelize from 'sequelize'
+import configJson from '../config/config.json'
 
-const db = {}
+const env = process.env.NODE_ENV || 'development'
+const config = configJson[env]
+let models = {}
 
-let sequelize
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config)
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config)
+function getModels (config, force = false) {
+  if (Object.keys(models).length && !force) {
+    return models
+  }
+
+  const sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    { host: config.host, dialect: config.dialect, logging: config.logging }
+  )
+
+  // Include modules manually, so Webpack understands it
+  let modules = [
+    require('./kpi.js'),
+    require('./organisation_user.js'),
+    require('./organisation.js'),
+    require('./project.js'),
+    require('./sdg.js'),
+    require('./tpi.js'),
+    require('./user.js')
+  ]
+
+  // Initialize models
+  modules.forEach((module) => {
+    const model = module(sequelize, Sequelize, config)
+    models[model.name] = model
+  })
+
+  // Apply associations
+  Object.keys(models).forEach((key) => {
+    if ('associate' in models[key]) {
+      models[key].associate(models)
+    }
+  })
+
+  models.sequelize = sequelize
+  models.Sequelize = Sequelize
+
+  return models
 }
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js')
-  })
-  .forEach(file => {
-    const model = sequelize['import'](path.join(__dirname, file))
-    db[model.name] = model
-  })
-
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db)
-  }
-})
-
-db.sequelize = sequelize
-db.Sequelize = Sequelize
-
-module.exports = db
+export default getModels(config)
