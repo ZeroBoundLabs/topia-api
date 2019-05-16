@@ -7,6 +7,7 @@ import Vision from 'vision'
 import HapiSwagger from 'hapi-swagger'
 import Pack from './package.json'
 import HapiJWT from 'hapi-auth-jwt2'
+import Good from '@hapi/good'
 
 const swaggerOptions = {
   info: {
@@ -22,8 +23,43 @@ const setupServer = async () => {
     routes: { cors: true }
   }
 
+  let reporters
+
   if (config.env === 'development') {
     params.debug = { request: ['error'] }
+    reporters = {
+      myConsoleReporter: [
+        {
+          module: '@hapi/good-squeeze',
+          name: 'Squeeze',
+          args: [{ log: '*', response: '*' }]
+        },
+        {
+          module: '@hapi/good-console'
+        },
+        'stdout'
+      ]
+    }
+  }
+
+  if (config.env === 'production') {
+    reporters = {
+      fileReporter: [
+        {
+          module: '@hapi/good-squeeze',
+          name: 'Squeeze',
+          args: [{ log: '*', response: '*' }]
+        },
+        {
+          module: '@hapi/good-squeeze',
+          name: 'SafeJson'
+        },
+        {
+          module: 'good-file',
+          args: ['./logs/production']
+        }
+      ]
+    }
   }
 
   const server = Hapi.server(params)
@@ -35,7 +71,11 @@ const setupServer = async () => {
       plugin: HapiSwagger,
       options: swaggerOptions
     },
-    HapiJWT
+    HapiJWT,
+    {
+      plugin: Good,
+      options: { reporters }
+    }
   ])
 
   server.auth.strategy('jwt', 'jwt', {
