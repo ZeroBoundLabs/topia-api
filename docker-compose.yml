@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    expose:
+      - 5432
+    environment:
+      POSTGRES_PASSWORD: 'postgres'
+    volumes:
+      - database_data:/var/lib/postgresql/data
+  api:
+    build: .
+    volumes:
+      - nodemodules:/home/app/node_modules
+    ports:
+      - 3000:3000
+    entrypoint: ["/bin/sh", "./entrypoint.sh"]
+    links:
+      - db
+    environment:
+      - PGHOST=db
+      - PGDATABASE=postgres
+      - PGUSER=postgres
+      - PGPASSWORD=postgres
+
+  webserver:
+    image: nginx:mainline-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - web-root:/var/www/html
+      - ./config/nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - ./config/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+    depends_on:
+      - api
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+    depends_on:
+      - webserver
+    command: certonly --webroot --webroot-path=/var/www/html --email artur@topia.us --agree-tos --no-eff-email --force-renewal -d api-staging.topia.us
+
+volumes:
+  nodemodules:
+    driver: local
+  database_data:
+    driver: local
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/deploy/topia-api/uploads/
+      o: bind
+

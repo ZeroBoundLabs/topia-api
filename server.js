@@ -19,7 +19,7 @@ const swaggerOptions = {
 const setupServer = async () => {
   const params = {
     port: config.serverPort || 3000,
-    host: 'localhost',
+    host: '0.0.0.0',
     routes: { cors: true }
   }
 
