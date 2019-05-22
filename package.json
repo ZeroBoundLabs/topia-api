@@ -10,19 +10,16 @@
     "test": "standard | snazzy && NODE_ENV=test jest --detectOpenHandles",
     "vscode-test-debug": "NODE_ENV=test npx sequelize db:drop && NODE_ENV=test npx sequelize db:create && NODE_ENV=test npx sequelize db:migrate && NODE_ENV=test node --nolazy --inspect-brk=9229 node_modules/.bin/jest --detectOpenHandles",
     "start": "nodemon --exec babel-node index.js",
-    "build": "webpack"
+    "build": "npx webpack"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.4.3",
+    "@babel/core": "^7.4.4",
     "@babel/node": "^7.2.2",
     "jest": "^24.7.1",
     "nodemon": "^1.18.11",
-    "standard": "^12.0.1",
-    "webpack": "^4.31.0",
-    "webpack-cli": "^3.3.2",
-    "webpack-node-externals": "^1.7.2"
+    "standard": "^12.0.1"
   },
   "dependencies": {
     "@babel/preset-env": "^7.4.3",
@@ -50,7 +47,10 @@
     "sequelize-cli": "^5.4.0",
     "snazzy": "^8.0.0",
     "stream-to-promise": "^2.2.0",
-    "vision": "^5.4.4"
+    "vision": "^5.4.4",
+    "webpack": "^4.32.0",
+    "webpack-cli": "^3.3.2",
+    "webpack-node-externals": "^1.7.2"
   },
   "standard": {
     "env": [
