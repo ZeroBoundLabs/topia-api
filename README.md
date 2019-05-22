@@ -14,6 +14,10 @@
 * Run linter and tests `npm test`
 * Only linter `npm lint`
 
+# Prepare production build
+* Build `npm run build`
+* `node dist/bundle.js`
+
 # Sequelize CLI commands (migrations)
 `npx sequelize [command]` or `node_modules/.bin/sequelize [command]`
 
