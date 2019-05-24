@@ -1,4 +1,4 @@
-FROM node:10.15.0-alpine
+FROM node:11.15.0-alpine
 EXPOSE 3000
 
 ARG NODE_ENV=production
