@@ -2,6 +2,7 @@ import userRoutes from './user.js'
 import organisationRoutes from './organisations.js'
 import projectRoutes from './projects.js'
 import adminRoutes from './admin'
+import newsletterRoutes from './newsletter'
 
 const rootUrl = {
   method: 'GET',
@@ -17,5 +18,6 @@ export default [
   ...adminRoutes,
   ...userRoutes,
   ...organisationRoutes,
-  ...projectRoutes
+  ...projectRoutes,
+  ...newsletterRoutes
 ]
