@@ -1,0 +1,11 @@
+.git
+node_modules
+dist/bundle.js
+.postman
+.vscode
+logs
+Dockerfile*
+docker-compose*
+.dockerignore
+.gitignore
+README.md
