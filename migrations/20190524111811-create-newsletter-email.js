@@ -22,6 +22,6 @@ module.exports = {
     })
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('NewsletterEmails')
+    return queryInterface.dropTable('newsletter_emails')
   }
 }
