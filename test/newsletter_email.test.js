@@ -1,5 +1,6 @@
 import { init } from '../server.js'
 import NewsletterServices from '../services/newsletter'
+import mockAxios from 'axios'
 
 let server
 let takenEmail
@@ -23,6 +24,7 @@ describe('POST /newsletter', () => {
       }
     })
     expect(res.statusCode).toBe(409)
+    expect(mockAxios.post).toHaveBeenCalledTimes(0)
   })
 
   test('400 status code when no params given', async () => {
@@ -31,6 +33,7 @@ describe('POST /newsletter', () => {
       url: '/newsletter'
     })
     expect(res.statusCode).toBe(400)
+    expect(mockAxios.post).toHaveBeenCalledTimes(0)
   })
 
   test('200 status code when email created', async () => {
@@ -41,6 +44,7 @@ describe('POST /newsletter', () => {
       payload: { email }
     })
 
+    expect(mockAxios.post).toHaveBeenCalledTimes(1)
     expect(res.statusCode).toBe(200)
     expect(res.result.email).toBe('joe@topia.io')
   })
