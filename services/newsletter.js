@@ -1,9 +1,6 @@
 import models from '../models'
 import Boom from 'boom'
-
-const addToMailchimp = async email => {
-  console.log('implement me')
-}
+import { addEmailToContacts } from './mailchimp.js'
 
 const register = async email => {
   let emailModel = await models.newsletter_email.findOne({ where: { email } })
@@ -12,7 +9,7 @@ const register = async email => {
     throw Boom.conflict('Email already added')
   } else {
     emailModel = await models.newsletter_email.create({ email })
-    await addToMailchimp(email)
+    await addEmailToContacts(email)
 
     return emailModel
   }
