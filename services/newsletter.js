@@ -15,6 +15,13 @@ const register = async email => {
   }
 }
 
+const findAll = async () => {
+  const emails = await models.newsletter_email.findAll()
+
+  return emails
+}
+
 export default {
-  register
+  register,
+  findAll
 }
