@@ -14,5 +14,5 @@ module.exports = {
   resolve: {
     extensions: ['.js']
   },
-  externals: [nodeExternals()]
+  externals: [nodeExternals({ whitelist: ['axios', 'follow-redirects'] })]
 }
