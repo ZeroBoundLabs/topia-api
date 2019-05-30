@@ -3,7 +3,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
-      'organisation_user',
+      'organisation_users',
       [
         {
           role: 'admin',
