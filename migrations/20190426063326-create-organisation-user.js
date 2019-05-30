@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    const OrganisationUser = queryInterface.createTable('organisation_user', {
+    const OrganisationUser = queryInterface.createTable('organisation_users', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -40,6 +40,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return Promise.all([queryInterface.dropTable('organisation_user')])
+    return Promise.all([queryInterface.dropTable('organisation_users')])
   }
 }
