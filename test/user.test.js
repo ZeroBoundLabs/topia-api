@@ -20,6 +20,51 @@ afterAll(async () => {
   await server.stop()
 })
 
+describe('PUT /user/password', () => {
+  test('400 status code when no params given', async () => {
+    const res = await server.inject({
+      method: 'put',
+      url: '/user/password'
+    })
+    expect(res.statusCode).toBe(400)
+  })
+
+  test('404 status when token not found', async () => {
+    const res = await server.inject({
+      method: 'put',
+      url: '/user/password',
+      payload: {
+        token: 'SOMETHING IS WRONG HERE',
+        password: 'thisismypassword'
+      }
+    })
+    expect(res.statusCode).toBe(404)
+  })
+
+  test('sets password if valid token and password given', async () => {
+    await UserServices.register('Valid Tester', 'valid1@topia.io', 'password')
+    const token = 'someThingRandom1212'
+    const password = 'thisismypassword'
+    const userDb = await models.user.findOne({
+      where: { email: 'valid1@topia.io' }
+    })
+    await userDb.update({ activationToken: token })
+
+    const res = await server.inject({
+      method: 'put',
+      url: '/user/password',
+      payload: {
+        token,
+        password
+      }
+    })
+    expect(res.statusCode).toBe(200)
+
+    const loginResponse = await UserServices.login(userDb.email, password)
+    expect(loginResponse.user.id).toBe(userDb.id)
+  })
+})
+
 describe('POST /user/register', () => {
   test('409 status code when email taken', async () => {
     const takenEmail = 'taken@email.com'
