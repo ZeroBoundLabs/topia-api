@@ -1,3 +1,4 @@
 import userRoutes from './users.js'
+import newsletterRoutes from './newsletter_emails'
 
-export default [...userRoutes]
+export default [...userRoutes, ...newsletterRoutes]
