@@ -1,5 +1,7 @@
 import { init } from '../../server'
 import UserServices from '../../services/user'
+import mockMailgun from '../../services/mailgun'
+jest.mock('../../services/mailgun')
 
 let server
 let regular, admin
@@ -161,6 +163,8 @@ describe('GET /admin/user/{id}/activate', () => {
         Authorization: regular.token
       }
     })
+
+    expect(mockMailgun.applicationAccepted).toHaveBeenCalledTimes(0)
 
     expect(res.statusCode).toBe(403)
   })

@@ -1,14 +1,18 @@
 import mjml2html from 'mjml'
 import mailgun from 'mailgun-js'
+import config from '../config.js'
 
-const sendEmail = (to, subject, html) => {
-  const DOMAIN = 'sandboxa7f172a49e504d3ea0d3b18daf64f177.mailgun.org'
+export const sendEmail = (to, subject, html) => {
+  if (config.mailgunApiKey === undefined) {
+    throw new Error('Please setup mailgun credentials in config.json')
+  }
+
   const mg = mailgun({
-    apiKey: 'bdec4f480e194f5bb7f83596d7b6a140-39bc661a-1269fcab',
-    domain: DOMAIN
+    host: 'api.eu.mailgun.net',
+    apiKey: config.mailgunApiKey,
+    domain: config.mailgunDomain
   })
-  const from =
-    'Mailgun Sandbox <postmaster@sandboxa7f172a49e504d3ea0d3b18daf64f177.mailgun.org>'
+  const from = config.mailgunFrom
   const data = { from, to, subject, html }
 
   mg.messages().send(data, function (error, body) {
@@ -147,7 +151,7 @@ export const applicationAccepted = (email, name, orgName, activateUrl) => {
   sendEmail(email, `${orgName} - Application accepted`, mjmlOutput.html)
 }
 
-export const applicationrejected = (email, name, orgName) => {
+export const applicationRejected = (email, name, orgName) => {
   const mjmlOutput = mjml2html(`
     <mjml>
       <mj-head>
@@ -204,4 +208,11 @@ export const applicationrejected = (email, name, orgName) => {
   `)
 
   sendEmail(email, `${orgName} - Application Rejected`, mjmlOutput.html)
+}
+
+export default {
+  sendEmail,
+  applicationReceived,
+  applicationAccepted,
+  applicationRejected
 }
