@@ -9,7 +9,8 @@
     "serverPort": 3000,
     "mailchimpUser": "username of mailchimp user",
     "mailchimpApiKey": "apikey from mailchimp",
-    "mailchimpNewsletterListId": "mailchimp id of newsletter list "
+    "mailchimpNewsletterListId": "mailchimp id of newsletter list",
+    "webAppUrl": "https://web-staging.topia.us"
   },
   "test": {
     "username": "root",
@@ -21,7 +22,8 @@
     "serverPort": 3000,
     "mailchimpUser": "username of mailchimp user",
     "mailchimpApiKey": "apikey from mailchimp",
-    "mailchimpNewsletterListId": "mailchimp id of newsletter list "
+    "mailchimpNewsletterListId": "mailchimp id of newsletter list ",
+    "webAppUrl": "https://web-staging.topia.us"
   },
   "production": {
     "username": "root",
@@ -33,6 +35,7 @@
     "serverPort": 3000,
     "mailchimpUser": "username of mailchimp user",
     "mailchimpApiKey": "apikey from mailchimp",
-    "mailchimpNewsletterListId": "mailchimp id of newsletter list "
+    "mailchimpNewsletterListId": "mailchimp id of newsletter list ",
+    "webAppUrl": "https://web-staging.topia.us"
   }
 }

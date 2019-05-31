@@ -97,7 +97,7 @@ const activate = async id => {
   const organisations = await user.getOrganisations({ limit: 1 })
 
   if (organisations[0]) {
-    const activationUrl = `https://topia.us/app/user/activate/${
+    const activationUrl = `${config.webAppUrl}/app/activate/${
       user.activationToken
     }`
     applicationAccepted(
