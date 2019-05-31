@@ -6,6 +6,7 @@ import config from '../config.js'
 import { pick } from 'ramda'
 import { uploadFile } from './upload'
 import { applicationAccepted, applicationRejected } from './mailgun'
+import uuid from 'uuidv4'
 
 export const validate = async (decoded, request) => {
   const user = await models.user.findOne({ where: { id: decoded.id } })
@@ -92,7 +93,9 @@ const getUser = async id => {
 
 const activate = async id => {
   const user = await findOne(id)
+  const activationToken = uuid()
   user.active = true
+  user.activationToken = activationToken
   await user.save()
   const organisations = await user.getOrganisations({ limit: 1 })
 
@@ -114,6 +117,7 @@ const activate = async id => {
 const deactivate = async id => {
   const user = await findOne(id)
   user.active = false
+  user.activationToken = null
   await user.save()
 
   const organisations = await user.getOrganisations({ limit: 1 })
