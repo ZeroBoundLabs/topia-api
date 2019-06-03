@@ -122,6 +122,35 @@ export default [
   },
 
   {
+    method: 'PUT',
+    path: '/user/password',
+    handler: async (request, h) => {
+      const { token, password } = request.payload
+      const user = await UserService.setPassword(token, password)
+
+      return user
+    },
+    options: {
+      auth: false,
+      description: 'Set password',
+      notes: 'Allows to set password for user using token.',
+      tags: ['api'],
+      validate: {
+        payload: {
+          token: Joi.string()
+            .min(3)
+            .max(200)
+            .required(),
+          password: Joi.string()
+            .min(3)
+            .max(200)
+            .required()
+        }
+      }
+    }
+  },
+
+  {
     method: 'GET',
     path: '/uploads/users/{file*}',
     handler: {

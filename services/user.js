@@ -5,6 +5,8 @@ import Boom from 'boom'
 import config from '../config.js'
 import { pick } from 'ramda'
 import { uploadFile } from './upload'
+import { applicationAccepted, applicationRejected } from './mailgun'
+import uuid from 'uuidv4'
 
 export const validate = async (decoded, request) => {
   const user = await models.user.findOne({ where: { id: decoded.id } })
@@ -91,8 +93,23 @@ const getUser = async id => {
 
 const activate = async id => {
   const user = await findOne(id)
+  const activationToken = uuid()
   user.active = true
+  user.activationToken = activationToken
   await user.save()
+  const organisations = await user.getOrganisations({ limit: 1 })
+
+  if (organisations[0]) {
+    const activationUrl = `${config.webAppUrl}/app/activate/${
+      user.activationToken
+    }`
+    applicationAccepted(
+      user.email,
+      user.name,
+      organisations[0].name,
+      activationUrl
+    )
+  }
 
   return fullUserResponse(user)
 }
@@ -100,7 +117,14 @@ const activate = async id => {
 const deactivate = async id => {
   const user = await findOne(id)
   user.active = false
+  user.activationToken = null
   await user.save()
+
+  const organisations = await user.getOrganisations({ limit: 1 })
+
+  if (organisations[0]) {
+    applicationRejected(user.email, user.name, organisations[0].name)
+  }
 
   return fullUserResponse(user)
 }
@@ -125,6 +149,26 @@ const fullUserResponse = user => ({
   updatedAt: user.updatedAt,
   deletedAt: user.deletedAt
 })
+
+const setPassword = async (activationToken, password) => {
+  const user = await models.user.findOne({
+    where: { activationToken },
+    attributes: { exclude: ['password'] }
+  })
+
+  if (!user) {
+    throw Boom.notFound('User not found')
+  } else {
+    const hashedPassword = await hashPassword(password)
+
+    await user.update({
+      password: hashedPassword,
+      activationToken: null
+    })
+
+    return userResponse(user)
+  }
+}
 
 const update = async (id, payload) => {
   const user = await findOne(id)
@@ -167,5 +211,6 @@ export default {
   update,
   getUser,
   assignRole,
-  destroy
+  destroy,
+  setPassword
 }
