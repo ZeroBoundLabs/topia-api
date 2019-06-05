@@ -53,11 +53,11 @@ const login = async (email, plainPassword) => {
 }
 
 const userResponse = user => {
-  const { id, email, name, role } = user
+  const { id, email, name, role, avatarFilename } = user
 
   return {
     token: generateJWT(user),
-    user: { id, email, name, role }
+    user: { id, email, name, role, avatarFilename }
   }
 }
 
@@ -180,7 +180,9 @@ const update = async (id, payload) => {
   if (payload.avatarFile) {
     const file = payload.avatarFile
     const data = file._data
-    const sanitizedFilename = `avatar-${id}-${file.hapi.filename}`
+    const sanitizedFilename = `avatar_${id}_${file.hapi.filename}`
+      .replace(/[^a-z0-9]/gi, '_')
+      .toLowerCase()
 
     await uploadFile(sanitizedFilename, data, 'user_avatar')
     params.avatarFilename = sanitizedFilename
