@@ -76,7 +76,7 @@ export default [
     handler: async (request, h) => {
       const userId = request.auth.credentials.id
       const { payload } = request
-      const organisation = OrganisationService.create(
+      const organisation = OrganisationService.update(
         request.params.id,
         payload,
         userId
@@ -95,17 +95,18 @@ export default [
             .min(3)
             .max(200),
           email: Joi.string().email(),
-          logo: Joi.string()
-            .min(3)
-            .max(200),
           type: Joi.string()
             .min(3)
             .max(200),
           description: Joi.string()
             .min(3)
             .max(2000),
-          logoFile: Joi.any()
+          logoFile: Joi.any(),
+          bannerFile: Joi.any()
         }
+      },
+      payload: {
+        output: 'stream'
       }
     }
   },
@@ -227,6 +228,16 @@ export default [
       )
 
       return projects
+    }
+  },
+
+  {
+    method: 'GET',
+    path: '/uploads/organisations/{file*}',
+    handler: {
+      directory: {
+        path: 'uploads/organisations'
+      }
     }
   }
 ]
