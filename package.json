@@ -8,8 +8,8 @@
     "lint": "standard | snazzy",
     "format": "prettier-standard '**/*.js'",
     "test": "standard | snazzy && NODE_ENV=test jest --detectOpenHandles",
-    "vscode-test-debug": "NODE_ENV=test npx sequelize db:drop && NODE_ENV=test npx sequelize db:create && NODE_ENV=test npx sequelize db:migrate && NODE_ENV=test node --nolazy --inspect-brk=9229 node_modules/.bin/jest --detectOpenHandles",
-    "start": "nodemon --exec babel-node index.js",
+    "vscode-test-debug": "NODE_ENV=test npx sequelize db:drop && NODE_ENV=test npx sequelize db:create && NODE_ENV=test npx sequelize db:migrate && NODE_ENV=test node --nolazy --inspect-brk=9229 node_modules/.bin/jest --detectOpenHandles --runInBand --codeCoverage=false",
+    "start": "nodemon --inspect --exec babel-node index.js",
     "build": "npx webpack"
   },
   "author": "",
