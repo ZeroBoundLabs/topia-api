@@ -86,9 +86,6 @@ export default [
             .min(3)
             .max(200),
           email: Joi.string().email(),
-          password: Joi.string()
-            .min(3)
-            .max(200),
           role: Joi.string()
             .min(3)
             .max(200)

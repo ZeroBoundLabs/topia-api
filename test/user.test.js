@@ -224,7 +224,6 @@ describe('PUT /user', () => {
     expect(res.statusCode).toBe(200)
     expect(result.name).not.toBe(validUser.user.name)
     expect(result.id).toBe(validUser.user.id)
-    expect(result.password).toBe(undefined)
   })
 
   test('changes email when given', async () => {
@@ -247,13 +246,13 @@ describe('PUT /user', () => {
     expect(result.email).not.toBe(validUser.user.email)
     expect(result.email).toBe('new@email.com')
     expect(result.id).toBe(validUser.user.id)
-    expect(result.password).toBe(undefined)
   })
 
   test('changes password when given', async () => {
     const newPassword = 'newlongpassword'
     const form = new FormData()
     form.append('password', newPassword)
+    form.append('currentPassword', 'password')
     const payload = await streamToPromise(form)
 
     const res = await server.inject({
@@ -265,11 +264,11 @@ describe('PUT /user', () => {
       },
       payload
     })
+    expect(res.statusCode).toBe(200)
     const { result } = res
 
     const loginResponse = await UserServices.login(result.email, newPassword)
 
-    expect(res.statusCode).toBe(200)
     expect(result.id).toBe(validUser.user.id)
     expect(result.password).not.toBe(undefined)
     expect(result.id).toBe(loginResponse.user.id)
