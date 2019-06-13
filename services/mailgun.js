@@ -79,7 +79,13 @@ export const applicationReceived = (email, name, orgName) => {
     </mjml>
   `)
 
-  sendEmail(email, `${orgName} - Application Received`, mjmlOutput.html)
+  const response = sendEmail(
+    email,
+    `${orgName} - Application Received`,
+    mjmlOutput.html
+  )
+  console.log(response)
+  return response
 }
 
 export const applicationAccepted = (email, name, orgName, activateUrl) => {
@@ -148,7 +154,13 @@ export const applicationAccepted = (email, name, orgName, activateUrl) => {
     </mjml>
   `)
 
-  sendEmail(email, `${orgName} - Application accepted`, mjmlOutput.html)
+  const response = sendEmail(
+    email,
+    `${orgName} - Application accepted`,
+    mjmlOutput.html
+  )
+  console.log(response)
+  return response
 }
 
 export const applicationRejected = (email, name, orgName) => {
@@ -207,7 +219,13 @@ export const applicationRejected = (email, name, orgName) => {
     </mjml>
   `)
 
-  sendEmail(email, `${orgName} - Application Rejected`, mjmlOutput.html)
+  const response = sendEmail(
+    email,
+    `${orgName} - Application Rejected`,
+    mjmlOutput.html
+  )
+  console.log(response)
+  return response
 }
 
 export default {
