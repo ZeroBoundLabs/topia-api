@@ -7,11 +7,11 @@ const ORGANISATIONS_UPLOAD_DIR = 'uploads/organisations'
 
 export const uploadFile = async (filename, data, type) => {
   let path
-  if (type === 'user_avatar') {
+  if (type === 'user_avatar' || type === 'user_banner') {
     path = `${USERS_UPLOAD_DIR}/${filename}`
   }
 
-  if (type === 'organisation_logo') {
+  if (type === 'organisation_logo' || type === 'organisation_banner') {
     path = `${ORGANISATIONS_UPLOAD_DIR}/${filename}`
   }
 

@@ -2,6 +2,8 @@ import models from '../models'
 import { pick } from 'ramda'
 import { uploadFile } from './upload'
 import Boom from 'boom'
+import userApi from './user'
+import config from '../config.js'
 
 const findAll = async () => {
   const organisations = await models.organisation.findAll({
@@ -11,14 +13,39 @@ const findAll = async () => {
   return organisations.map(org => organisationResponse(org))
 }
 
+const findAllByUserId = async id => {
+  const user = await userApi.findOne(id)
+
+  const organisations = await user.getOrganisations()
+
+  return organisations.map(org => organisationResponse(org))
+}
+
 const updateLogo = async (model, file) => {
   const data = file._data
   const sanitizedFilename = `logo-${model.id}-${file.hapi.filename}`
+    .replace(/[^a-z0-9]/gi, '_')
+    .toLowerCase()
 
   await uploadFile(sanitizedFilename, data, 'organisation_logo')
   const updated = await model.update(
     { logo: sanitizedFilename },
     { fields: ['logo'] }
+  )
+
+  return updated
+}
+
+const updateBanner = async (model, file) => {
+  const data = file._data
+  const sanitizedFilename = `banner-${model.id}-${file.hapi.filename}`
+    .replace(/[^a-z0-9]/gi, '_')
+    .toLowerCase()
+
+  await uploadFile(sanitizedFilename, data, 'organisation_banner')
+  const updated = await model.update(
+    { bannerFilename: sanitizedFilename },
+    { fields: ['bannerFilename'] }
   )
 
   return updated
@@ -49,6 +76,10 @@ const update = async (id, payload, userId) => {
 
     if (payload.logoFile) {
       org = await updateLogo(org, payload.logoFile)
+    }
+
+    if (payload.bannerFile) {
+      org = await updateBanner(org, payload.bannerFile)
     }
 
     return organisationResponse(org)
@@ -148,7 +179,12 @@ const organisationResponse = organisation => ({
   id: organisation.id,
   name: organisation.name,
   email: organisation.email,
-  logo: organisation.logo,
+  logoUrl: organisation.logo
+    ? `${config.webAppUrl}/uploads/organisations/${organisation.logo}`
+    : null,
+  bannerUrl: organisation.logo
+    ? `${config.webAppUrl}/uploads/organisations/${organisation.bannerFilename}`
+    : null,
   type: organisation.type,
   description: organisation.description,
   createdAt: organisation.createdAt,
@@ -166,5 +202,6 @@ export default {
   removeUser,
   addProject,
   getAllProjects,
+  findAllByUserId,
   isMember
 }

@@ -1,5 +1,6 @@
 import Joi from 'joi'
 import UserService from '../services/user'
+import OrganisationService from '../services/organisation'
 
 export default [
   {
@@ -47,7 +48,11 @@ export default [
           password: Joi.string()
             .min(3)
             .max(200),
-          avatarFile: Joi.any()
+          currentPassword: Joi.string()
+            .min(3)
+            .max(200),
+          avatarFile: Joi.any(),
+          bannerFile: Joi.any()
         }
       },
       payload: {
@@ -57,6 +62,23 @@ export default [
     handler: async (request, h) => {
       const { id } = request.auth.credentials
       const user = await UserService.update(id, request.payload)
+
+      return user
+    }
+  },
+
+  {
+    method: 'GET',
+    path: '/user/organizations',
+    options: {
+      auth: 'jwt',
+      description: 'Get users organizations',
+      notes: 'Allows to fetch all organizations of user.',
+      tags: ['api']
+    },
+    handler: async (request, h) => {
+      const { id } = request.auth.credentials
+      const user = await OrganisationService.findAllByUserId(id)
 
       return user
     }

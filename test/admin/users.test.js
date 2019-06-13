@@ -318,31 +318,6 @@ describe('PUT /admin/user/{id}', () => {
     expect(result.user.id).toBe(regular.user.id)
   })
 
-  test('changes password when given', async () => {
-    const newPassword = 'newlongpassword'
-    const res = await server.inject({
-      method: 'put',
-      url: `/admin/user/${regular.user.id}`,
-      headers: {
-        Authorization: admin.token
-      },
-      payload: {
-        password: newPassword
-      }
-    })
-    const { result } = res
-
-    const loginResponse = await UserServices.login(
-      result.user.email,
-      newPassword
-    )
-
-    expect(res.statusCode).toBe(200)
-    expect(result.user.id).toBe(regular.user.id)
-    expect(result.user.password).not.toBe(undefined)
-    expect(result.user.id).toBe(loginResponse.user.id)
-  })
-
   test('401 status code when not JWT given', async () => {
     const res = await server.inject({
       method: 'put',

@@ -53,11 +53,11 @@ const login = async (email, plainPassword) => {
 }
 
 const userResponse = user => {
-  const { id, email, name, role } = user
+  const { id, email, name, role, avatarFilename, bannerFilename } = user
 
   return {
     token: generateJWT(user),
-    user: { id, email, name, role }
+    user: { id, email, name, role, avatarFilename, bannerFilename }
   }
 }
 
@@ -145,6 +145,7 @@ const fullUserResponse = user => ({
   role: user.role,
   password: user.password,
   avatarFilename: user.avatarFilename,
+  bannerFilename: user.bannerFilename,
   createdAt: user.createdAt,
   updatedAt: user.updatedAt,
   deletedAt: user.deletedAt
@@ -170,20 +171,41 @@ const setPassword = async (activationToken, password) => {
   }
 }
 
+const fileUpload = async (file, id, type) => {
+  const data = file._data
+  const sanitizedFilename = `${type}_${id}_${file.hapi.filename}`
+    .replace(/[^a-z0-9]/gi, '_')
+    .toLowerCase()
+  await uploadFile(sanitizedFilename, data, `user_${type}`)
+
+  return sanitizedFilename
+}
+
+const setNewPassword = async (user, payload) => {
+  const { password: newPassword, currentPassword } = payload
+
+  const valid = await bcrypt.compare(currentPassword, user.password)
+
+  if (!valid) {
+    throw Boom.conflict('Current password do not match')
+  } else {
+    const newPassHash = await hashPassword(newPassword)
+    return newPassHash
+  }
+}
+
 const update = async (id, payload) => {
-  const user = await findOne(id)
+  const user = await models.user.findOne({ where: { id } })
   const params = pick(['name', 'email', 'password'], payload)
-  if (params.password) {
-    params.password = await hashPassword(params.password)
+  if (params.password && payload.currentPassword) {
+    params.password = await setNewPassword(user, payload)
+  }
+  if (payload.avatarFile) {
+    params.avatarFilename = await fileUpload(payload.avatarFile, id, 'avatar')
   }
 
-  if (payload.avatarFile) {
-    const file = payload.avatarFile
-    const data = file._data
-    const sanitizedFilename = `avatar-${id}-${file.hapi.filename}`
-
-    await uploadFile(sanitizedFilename, data, 'user_avatar')
-    params.avatarFilename = sanitizedFilename
+  if (payload.bannerFile) {
+    params.bannerFilename = await fileUpload(payload.bannerFile, id, 'banner')
   }
 
   await user.update(params)
