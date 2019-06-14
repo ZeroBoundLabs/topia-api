@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const SdgTarget = sequelize.define(
     'sdg_target',
     {
-      name: DataTypes.STRING,
+      title: DataTypes.STRING,
       sdg_id: DataTypes.INTEGER,
       description: DataTypes.TEXT
     },

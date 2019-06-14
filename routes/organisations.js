@@ -195,12 +195,7 @@ export default [
       auth: 'jwt',
       description: 'Create project',
       notes: 'Add new project under organisation. JWT required.',
-      tags: ['api'],
-      validate: {
-        payload: {
-          name: Joi.string().required()
-        }
-      }
+      tags: ['api']
     },
     handler: async (request, h) => {
       const callerId = request.auth.credentials.id
@@ -209,7 +204,6 @@ export default [
         callerId,
         request.payload
       )
-
       return project
     }
   },

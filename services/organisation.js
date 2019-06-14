@@ -160,7 +160,18 @@ const addProject = async (id, callerId, payload) => {
   const org = await findOne(id)
 
   if (await isMember(org, callerId)) {
-    const project = await org.createProject({ name: payload.name })
+    const project = await org.createProject({
+      name: payload.name,
+      startAt: payload.startAt,
+      coordinates: payload.coordinates
+    })
+
+    for (const id of payload.sdgTargetIds) {
+      await models.project_sdg_target.create({
+        project_id: project.id,
+        sdg_target_id: id
+      })
+    }
 
     return project
   } else {
