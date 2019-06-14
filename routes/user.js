@@ -1,5 +1,6 @@
 import Joi from 'joi'
 import UserService from '../services/user'
+import ProjectService from '../services/project'
 import OrganisationService from '../services/organisation'
 
 export default [
@@ -79,6 +80,23 @@ export default [
     handler: async (request, h) => {
       const { id } = request.auth.credentials
       const user = await OrganisationService.findAllByUserId(id)
+
+      return user
+    }
+  },
+
+  {
+    method: 'GET',
+    path: '/user/projects',
+    options: {
+      auth: 'jwt',
+      description: 'Get users projects',
+      notes: 'Allows to fetch all projects of user.',
+      tags: ['api']
+    },
+    handler: async (request, h) => {
+      const { id } = request.auth.credentials
+      const user = await ProjectService.findAllByUserId(id)
 
       return user
     }

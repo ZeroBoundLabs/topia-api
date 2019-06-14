@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     facebook: DataTypes.STRING,
     twitter: DataTypes.STRING,
     linkedin: DataTypes.STRING,
+    fbId: DataTypes.STRING,
     bannerFilename: DataTypes.STRING
   }, {})
   User.associate = function (models) {

@@ -19,14 +19,14 @@ export const validate = async (decoded, request) => {
   }
 }
 
-const register = async (name, email, plainPassword) => {
+const register = async (name, email, plainPassword, fbId) => {
   let user = await models.user.findOne({ where: { email } })
   if (user) {
     throw Boom.conflict('Email taken')
   }
 
   const password = await hashPassword(plainPassword)
-  user = await models.user.create({ name, email, password })
+  user = await models.user.create({ name, email, password, fbId })
 
   return userResponse(user)
 }
@@ -52,7 +52,7 @@ const login = async (email, plainPassword) => {
   return userResponse(user)
 }
 
-const userResponse = user => {
+export const userResponse = user => {
   const { id, email, name, role, avatarFilename, bannerFilename } = user
 
   return {
@@ -234,5 +234,6 @@ export default {
   getUser,
   assignRole,
   destroy,
-  setPassword
+  setPassword,
+  userResponse
 }
