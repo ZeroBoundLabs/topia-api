@@ -12,6 +12,9 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      completed: {
+        type: Sequelize.BOOLEAN
+      },
       project_id: {
         type: Sequelize.INTEGER,
         references: {
