@@ -15,28 +15,28 @@ module.exports = {
       project_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'projects', // table name
+          model: 'projects',
           key: 'id'
         }
       },
       currency_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'currencies', // table name
+          model: 'currencies',
           key: 'id'
         }
       },
       donor_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'users', // table name
+          model: 'users',
           key: 'id'
         }
       },
-      ngo_id: {
+      organisation_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'organisations', // table name
+          model: 'organisations',
           key: 'id'
         }
       },
@@ -46,7 +46,7 @@ module.exports = {
       milestone_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'milestones', // table name
+          model: 'milestones',
           key: 'id'
         }
       }
