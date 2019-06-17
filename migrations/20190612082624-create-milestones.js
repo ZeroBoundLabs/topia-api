@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -28,4 +28,4 @@ module.exports = {
   down: (queryInterface, Sequelize) => {
     return Promise.all([queryInterface.dropTable('milestones')])
   }
-};
+}
