@@ -10,7 +10,9 @@
     "mailchimpUser": "username of mailchimp user",
     "mailchimpApiKey": "apikey from mailchimp",
     "mailchimpNewsletterListId": "mailchimp id of newsletter list",
-    "webAppUrl": "https://web-staging.topia.us"
+    "webAppUrl": "https://web-staging.topia.us",
+    "fbClientId": "id fb",
+    "fbSecret": "secret"
   },
   "test": {
     "username": "root",
@@ -23,7 +25,9 @@
     "mailchimpUser": "username of mailchimp user",
     "mailchimpApiKey": "apikey from mailchimp",
     "mailchimpNewsletterListId": "mailchimp id of newsletter list ",
-    "webAppUrl": "https://web-staging.topia.us"
+    "webAppUrl": "https://web-staging.topia.us",
+    "fbClientId": "id fb",
+    "fbSecret": "secret"
   },
   "production": {
     "username": "root",
@@ -36,6 +40,8 @@
     "mailchimpUser": "username of mailchimp user",
     "mailchimpApiKey": "apikey from mailchimp",
     "mailchimpNewsletterListId": "mailchimp id of newsletter list ",
-    "webAppUrl": "https://web-staging.topia.us"
+    "webAppUrl": "https://web-staging.topia.us",
+    "fbClientId": "id fb",
+    "fbSecret": "secret"
   }
 }

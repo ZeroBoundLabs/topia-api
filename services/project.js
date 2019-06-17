@@ -1,11 +1,25 @@
 import models from '../models'
 import Boom from 'boom'
 import OrganisationService from './organisation'
+import userApi from './user'
 
 const findAll = async () => {
   const projects = await models.project.findAll({
-    where: { deletedAt: null }
+    where: { deletedAt: null },
+    include: [{ model: models.sdg_target }]
   })
+
+  return projects
+}
+
+const findAllByUserId = async id => {
+  const user = await userApi.findOne(id)
+  const organisations = await user.getOrganisations()
+  const projects = []
+  for (const org of organisations) {
+    let orgProjects = await org.getProjects()
+    projects.push(...orgProjects)
+  }
 
   return projects
 }
@@ -47,6 +61,7 @@ const destroy = async (id, userId) => {
 
 export default {
   findAll,
+  findAllByUserId,
   findOne,
   update,
   destroy

@@ -4,6 +4,8 @@ import projectRoutes from './projects.js'
 import adminRoutes from './admin'
 import newsletterRoutes from './newsletter'
 import ngoRoutes from './ngo'
+import sdgTargets from './sdg_targets'
+import oauth from './oauth'
 
 const rootUrl = {
   method: 'GET',
@@ -21,5 +23,7 @@ export default [
   ...organisationRoutes,
   ...projectRoutes,
   ...newsletterRoutes,
-  ...ngoRoutes
+  ...ngoRoutes,
+  ...sdgTargets,
+  ...oauth
 ]
