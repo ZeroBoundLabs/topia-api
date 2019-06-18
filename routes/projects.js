@@ -1,4 +1,3 @@
-import Joi from 'joi'
 import ProjectService from '../services/project'
 
 export default [
@@ -49,14 +48,7 @@ export default [
       auth: 'jwt',
       description: 'Update',
       notes: 'Allows to update project. JWT required.',
-      tags: ['api'],
-      validate: {
-        payload: {
-          name: Joi.string()
-            .min(3)
-            .max(200)
-        }
-      }
+      tags: ['api']
     }
   },
 

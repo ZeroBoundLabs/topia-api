@@ -26,7 +26,11 @@ const findAllByUserId = async id => {
 
 const findOne = async id => {
   const project = await models.project.findOne({
-    where: { id, deletedAt: null }
+    where: { id, deletedAt: null },
+    include: [
+      { model: models.sdg_target },
+      { model: models.sdg_target, include: [models.sdg] }
+    ]
   })
 
   if (!project) {
@@ -41,7 +45,18 @@ const update = async (id, payload, userId) => {
   const org = await project.getOrganisation()
 
   if (await OrganisationService.isMember(org, userId)) {
-    await project.update(payload, { fields: ['name'] })
+    await project.update(payload, {
+      fields: ['startAt', 'name', 'description', 'coordinates']
+    })
+  }
+
+  await models.project_sdg_target.destroy({ where: { project_id: project.id } })
+
+  for (const id of payload.sdgTargetIds) {
+    await models.project_sdg_target.create({
+      project_id: project.id,
+      sdg_target_id: id
+    })
   }
 
   return project
