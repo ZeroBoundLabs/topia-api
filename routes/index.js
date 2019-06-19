@@ -6,6 +6,7 @@ import newsletterRoutes from './newsletter'
 import ngoRoutes from './ngo'
 import sdgTargets from './sdg_targets'
 import oauth from './oauth'
+import transactionRoutes from './transactions'
 
 const rootUrl = {
   method: 'GET',
@@ -25,5 +26,6 @@ export default [
   ...newsletterRoutes,
   ...ngoRoutes,
   ...sdgTargets,
-  ...oauth
+  ...oauth,
+  ...transactionRoutes
 ]

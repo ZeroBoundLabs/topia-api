@@ -31,7 +31,8 @@ function getModels (config, force = false) {
     require('./sdg_indicator.js'),
     require('./tpi_data.js'),
     require('./newsletter_email.js'),
-    require('./project_sdg_target.js')
+    require('./project_sdg_target.js'),
+    require('./transaction.js')
   ]
 
   // Initialize models

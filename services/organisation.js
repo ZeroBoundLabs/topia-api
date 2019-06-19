@@ -90,7 +90,10 @@ const update = async (id, payload, userId) => {
 
 const findOne = async id => {
   const organisation = await models.organisation.findOne({
-    include: { model: models.project },
+    include: [
+      { model: models.project },
+      { model: models.transaction, include: { model: models.user } }
+    ],
     where: { id, deletedAt: null }
   })
 
@@ -202,7 +205,8 @@ const organisationResponse = organisation => ({
   createdAt: organisation.createdAt,
   updatedAt: organisation.updatedAt,
   deletedAt: organisation.deletedAt,
-  projects: organisation.projects
+  projects: organisation.projects,
+  transactions: organisation.transactions
 })
 
 export default {
