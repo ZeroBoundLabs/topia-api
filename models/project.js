@@ -2,6 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Project = sequelize.define('project', {
     name: DataTypes.STRING,
+    sattelite_url: DataTypes.STRING,
     organisation_id: DataTypes.INTEGER,
     description: DataTypes.TEXT,
     fundingAllocated: DataTypes.INTEGER,
@@ -9,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     lng: DataTypes.FLOAT,
     startAt: DataTypes.DATE,
     coordinates: DataTypes.JSON,
+    bannerFilename: DataTypes.STRING,
     deletedAt: DataTypes.DATE
   }, {})
   Project.associate = function (models) {
