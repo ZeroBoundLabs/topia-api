@@ -36,13 +36,13 @@ const updateLogo = async (model, file) => {
   return updated
 }
 
-const updateBanner = async (model, file) => {
+const updateBanner = async (model, file, type) => {
   const data = file._data
   const sanitizedFilename = `banner-${model.id}-${file.hapi.filename}`
-    .replace(/[^a-z0-9]/gi, '_')
+    .replace(/[^a-z0-9.]/gi, '_')
     .toLowerCase()
 
-  await uploadFile(sanitizedFilename, data, 'organisation_banner')
+  await uploadFile(sanitizedFilename, data, type)
   const updated = await model.update(
     { bannerFilename: sanitizedFilename },
     { fields: ['bannerFilename'] }
@@ -69,7 +69,7 @@ const update = async (id, payload, userId) => {
 
   if (await isMember(organisation, userId)) {
     const params = pick(
-      ['name', 'email', 'logo', 'type', 'description'],
+      ['name', 'email', 'logo', 'type', 'description', 'url', 'location'],
       payload
     )
     let org = await organisation.update(params)
@@ -79,7 +79,7 @@ const update = async (id, payload, userId) => {
     }
 
     if (payload.bannerFile) {
-      org = await updateBanner(org, payload.bannerFile)
+      org = await updateBanner(org, payload.bannerFile, 'organisation_banner')
     }
 
     return organisationResponse(org)
@@ -164,13 +164,23 @@ const addProject = async (id, callerId, payload) => {
   const org = await findOne(id)
 
   if (await isMember(org, callerId)) {
-    const project = await org.createProject({
+    let project = await org.createProject({
       name: payload.name,
       startAt: payload.startAt,
-      coordinates: payload.coordinates
+      description: payload.description,
+      sattelite_url: payload.sattelite_url,
+      coordinates: JSON.parse(payload.coordinates)
     })
 
-    for (const id of payload.sdgTargetIds) {
+    if (payload.bannerFile) {
+      project = await updateBanner(
+        project,
+        payload.bannerFile,
+        'project_banner'
+      )
+    }
+
+    for (const id of JSON.parse(payload.sdgTargetIds)) {
       await models.project_sdg_target.create({
         project_id: project.id,
         sdg_target_id: id
@@ -190,24 +200,47 @@ const getAllProjects = async id => {
   return projects
 }
 
-const organisationResponse = organisation => ({
-  id: organisation.id,
-  name: organisation.name,
-  email: organisation.email,
-  logoUrl: organisation.logo
-    ? `${config.webAppUrl}/uploads/organisations/${organisation.logo}`
-    : null,
-  bannerUrl: organisation.logo
-    ? `${config.webAppUrl}/uploads/organisations/${organisation.bannerFilename}`
-    : null,
-  type: organisation.type,
-  description: organisation.description,
-  createdAt: organisation.createdAt,
-  updatedAt: organisation.updatedAt,
-  deletedAt: organisation.deletedAt,
-  projects: organisation.projects,
-  transactions: organisation.transactions
-})
+const organisationResponse = organisation => {
+  let totalDonations = 0
+
+  if (organisation.transactions && organisation.transactions.length > 0) {
+    organisation.transactions.reduce((prev, current, index) => {
+      if (index === 1) {
+        totalDonations = prev.amount + current.amount
+      } else {
+        totalDonations += current.amount
+      }
+    })
+    totalDonations = totalDonations / 100.0
+  }
+
+  return {
+    id: organisation.id,
+    totalDonations: totalDonations.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'EUR'
+    }),
+    name: organisation.name,
+    email: organisation.email,
+    url: organisation.url,
+    location: organisation.location,
+    logoUrl: organisation.logo
+      ? `${config.webAppUrl}/uploads/organisations/${organisation.logo}`
+      : null,
+    bannerUrl: organisation.logo
+      ? `${config.webAppUrl}/uploads/organisations/${
+          organisation.bannerFilename
+        }`
+      : null,
+    type: organisation.type,
+    description: organisation.description,
+    createdAt: organisation.createdAt,
+    updatedAt: organisation.updatedAt,
+    deletedAt: organisation.deletedAt,
+    projects: organisation.projects,
+    transactions: organisation.transactions
+  }
+}
 
 export default {
   findAll,

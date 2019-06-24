@@ -24,9 +24,9 @@ export default [
       tags: ['api']
     },
     handler: async (request, h) => {
-      const organisation = await ProjectService.findOne(request.params.id)
+      const project = await ProjectService.getOne(request.params.id)
 
-      return organisation
+      return project
     }
   },
 
@@ -48,7 +48,10 @@ export default [
       auth: 'jwt',
       description: 'Update',
       notes: 'Allows to update project. JWT required.',
-      tags: ['api']
+      tags: ['api'],
+      payload: {
+        output: 'stream'
+      }
     }
   },
 
@@ -66,6 +69,16 @@ export default [
       const project = await ProjectService.destroy(request.params.id, userId)
 
       return project
+    }
+  },
+
+  {
+    method: 'GET',
+    path: '/uploads/projects/{file*}',
+    handler: {
+      directory: {
+        path: 'uploads/projects'
+      }
     }
   }
 ]

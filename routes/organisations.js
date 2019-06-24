@@ -54,6 +54,8 @@ export default [
           description: Joi.string()
             .min(3)
             .max(2000),
+          url: Joi.string(),
+          location: Joi.string(),
           logoFile: Joi.any()
         }
       },
@@ -102,11 +104,15 @@ export default [
             .min(3)
             .max(2000),
           logoFile: Joi.any(),
+          location: Joi.string(),
+          url: Joi.string(),
           bannerFile: Joi.any()
         }
       },
       payload: {
-        output: 'stream'
+        output: 'stream',
+        timeout: false,
+        maxBytes: 11048576
       }
     }
   },
@@ -195,7 +201,10 @@ export default [
       auth: 'jwt',
       description: 'Create project',
       notes: 'Add new project under organisation. JWT required.',
-      tags: ['api']
+      tags: ['api'],
+      payload: {
+        output: 'stream'
+      }
     },
     handler: async (request, h) => {
       const callerId = request.auth.credentials.id

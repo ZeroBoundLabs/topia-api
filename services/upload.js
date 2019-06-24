@@ -4,6 +4,7 @@ const writeFile = promisify(fs.writeFile)
 
 const USERS_UPLOAD_DIR = 'uploads/users'
 const ORGANISATIONS_UPLOAD_DIR = 'uploads/organisations'
+const PROJECTS_UPLOAD_DIR = 'uploads/projects'
 
 export const uploadFile = async (filename, data, type) => {
   let path
@@ -13,6 +14,10 @@ export const uploadFile = async (filename, data, type) => {
 
   if (type === 'organisation_logo' || type === 'organisation_banner') {
     path = `${ORGANISATIONS_UPLOAD_DIR}/${filename}`
+  }
+
+  if (type === 'project_banner') {
+    path = `${PROJECTS_UPLOAD_DIR}/${filename}`
   }
 
   await writeFile(`./${path}`, data)
