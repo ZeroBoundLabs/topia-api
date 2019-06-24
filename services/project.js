@@ -73,7 +73,7 @@ const projectResponse = project => {
     sattelite_url: project.sattelite_url,
     description: project.description,
     bannerUrl: project.bannerFilename
-      ? `${config.webAppUrl}/uploads/projects/${project.bannerFilename}`
+      ? `${config.apiUrl}/uploads/projects/${project.bannerFilename}`
       : null
   }
 }

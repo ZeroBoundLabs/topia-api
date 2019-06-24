@@ -24,7 +24,7 @@ const findAllByUserId = async id => {
 const updateLogo = async (model, file) => {
   const data = file._data
   const sanitizedFilename = `logo-${model.id}-${file.hapi.filename}`
-    .replace(/[^a-z0-9]/gi, '_')
+    .replace(/[^a-z0-9.]/gi, '_')
     .toLowerCase()
 
   await uploadFile(sanitizedFilename, data, 'organisation_logo')
@@ -225,12 +225,10 @@ const organisationResponse = organisation => {
     url: organisation.url,
     location: organisation.location,
     logoUrl: organisation.logo
-      ? `${config.webAppUrl}/uploads/organisations/${organisation.logo}`
+      ? `${config.apiUrl}/uploads/organisations/${organisation.logo}`
       : null,
     bannerUrl: organisation.logo
-      ? `${config.webAppUrl}/uploads/organisations/${
-          organisation.bannerFilename
-        }`
+      ? `${config.apiUrl}/uploads/organisations/${organisation.bannerFilename}`
       : null,
     type: organisation.type,
     description: organisation.description,

@@ -174,7 +174,7 @@ const setPassword = async (activationToken, password) => {
 const fileUpload = async (file, id, type) => {
   const data = file._data
   const sanitizedFilename = `${type}_${id}_${file.hapi.filename}`
-    .replace(/[^a-z0-9]/gi, '_')
+    .replace(/[^a-z0-9.]/gi, '_')
     .toLowerCase()
   await uploadFile(sanitizedFilename, data, `user_${type}`)
 
