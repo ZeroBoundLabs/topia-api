@@ -6,3 +6,7 @@ truffle/ganache_db/*
 .idea/
 logs/*
 dist/bundle.js
+docker-compose.yml
+Dockerfile
+.postman/
+.vscode/
