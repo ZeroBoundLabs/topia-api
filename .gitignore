@@ -1,5 +1,7 @@
 node_modules/
 config/config.json
+config/dhparam-2048.pem
+config/nginx.conf
 uploads/users/*
 uploads/organisations/*
 truffle/ganache_db/*
